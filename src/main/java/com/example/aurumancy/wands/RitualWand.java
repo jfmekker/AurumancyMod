@@ -47,26 +47,6 @@ public class RitualWand extends Item implements IForgeRegistryEntry<Item> {
             return super.onItemUse(context);
         }
 
-        /*if (block.equals(Blocks.GOLD_BLOCK)) {
-            Rituals.GOLD_ABSORB.doRitual(world, pos, player);
-        }
-        else if (block.equals(Blocks.LAPIS_BLOCK)) {
-            Rituals.SPEEDY_LAPIS.doRitual(world, pos, player);
-        }
-        else if (block.equals(Blocks.IRON_BLOCK)) {
-            player.setAir(0);
-            world.destroyBlock(pos,false);
-
-            world.addEntity(new TNTEntity(world, pos.getX(), pos.getY(), pos.getZ(), null));
-            player.giveExperiencePoints(-25);
-        }
-        else if (block.equals(Blocks.NETHERRACK)) {
-            Rituals.NETHER_TELEPORT.doRitual(world, pos, player);
-        }
-        else if (block.equals(Blocks.HONEY_BLOCK)) {
-            Rituals.JUMP_WAND_CREATE.doRitual(world, pos, player);
-        }*/
-
         boolean ritualMatched = false;
         for (Ritual r : Rituals.RITUAL_SORTED_LIST) {
             if (r.validateRitualComponents(world,pos)) {

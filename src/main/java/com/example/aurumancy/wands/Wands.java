@@ -14,4 +14,6 @@ public class Wands {
 
     public static final RegistryObject<Item> JUMP_WAND = WAND_ITEMS.register("jump_wand", () -> new JumpWand(new Item.Properties().group(ItemGroup.COMBAT)));
 
+    public static final RegistryObject<Item> ARROW_WAND = WAND_ITEMS.register("arrow_wand", () -> new ArrowWand(new Item.Properties().group(ItemGroup.COMBAT)));
+
 }

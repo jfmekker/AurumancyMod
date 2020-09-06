@@ -26,7 +26,7 @@ public class JumpWand extends Item implements IForgeRegistryEntry<Item> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public JumpWand(Properties properties) {
-        super(properties.maxDamage(10));
+        super(properties);
     }
 
     @Override
