@@ -1,6 +1,5 @@
 package com.example.aurumancy.rituals;
 
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
