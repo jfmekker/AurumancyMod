@@ -21,43 +21,39 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod("aurumancy")
-public class RitualWand extends Item implements IForgeRegistryEntry<Item> {
+public class RitualWandItem extends AbstractWandItem {
 
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public RitualWand(Properties properties) {
-        super(properties);
+    public RitualWandItem(Properties properties) {
+        super(properties, 0);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        return super.onItemRightClick(world, player, hand);
-    }
+    protected void rightClickUsage(World world, PlayerEntity player, Hand hand) { }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
+    protected void blockUsage(ItemUseContext context) {
         World world = context.getWorld();
         BlockPos pos = context.getPos();
         Block block = world.getBlockState(pos).getBlock();
         PlayerEntity player = context.getPlayer();
 
         if (player == null) {
-            LOGGER.log(Level.ERROR, "Player is null on RitualWand use event: " + context.toString());
-            return super.onItemUse(context);
+            LOGGER.log(Level.ERROR, "Player is null on RitualWandItem use event: " + context.toString());
+            return;
         }
 
         boolean ritualMatched = false;
         for (Ritual r : Rituals.RITUAL_SORTED_LIST) {
             if (r.validateRitualComponents(world,pos)) {
-                LOGGER.info("RitualWand successfully matched: " + r.toString());
+                LOGGER.info("RitualWandItem successfully matched: " + r.toString());
                 r.doRitual(world, pos, player);
                 ritualMatched = true;
                 break;
             }
         }
-        if (!ritualMatched) LOGGER.info("RitualWand failed to match any rituals.");
-
-        return super.onItemUse(context);
+        if (!ritualMatched) LOGGER.info("RitualWandItem failed to match any rituals.");
     }
 }
