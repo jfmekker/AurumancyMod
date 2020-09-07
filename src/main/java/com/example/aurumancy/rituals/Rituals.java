@@ -10,7 +10,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
+import org.apache.logging.log4j.LogManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +34,21 @@ public class Rituals {
                             {Blocks.SAND, null,              Blocks.SAND},
                             {null,        Blocks.NETHERRACK, null},
                             {Blocks.SAND, null,              Blocks.SAND}},
-                    100,
+                    24,
                     new RitualAction() {
                         @Override
                         public void doAction(World world, BlockPos pos, PlayerEntity player) {
-                            //player.changeDimension(DimensionType.THE_NETHER);
+                            Thread t = new Thread(() -> {
+                                world.setBlockState(pos, Blocks.NETHER_PORTAL.getDefaultState());
+                                world.setBlockState(pos.add(0,1,0), Blocks.NETHER_PORTAL.getDefaultState());
+                                try { this.wait(5000); }
+                                catch (Exception e) { LogManager.getLogger().error(e.getMessage()); }
+                                if (world.getBlockState(pos).getBlock().equals(Blocks.NETHER_PORTAL)) {
+                                    world.destroyBlock(pos, false);
+                                    world.destroyBlock(pos.add(0,1,0), false);
+                                }
+                            });
+                            t.start();
                         }
                     });
 
@@ -63,7 +73,7 @@ public class Rituals {
 
         RITUAL_SORTED_LIST.add(GOLD_ABSORB);
         RITUAL_SORTED_LIST.add(SPEEDY_LAPIS);
-        //RITUAL_SORTED_LIST.add(NETHER_TELEPORT);
+        RITUAL_SORTED_LIST.add(NETHER_TELEPORT);
         RITUAL_SORTED_LIST.add(JUMP_WAND_CREATE);
 
         RITUAL_SORTED_LIST.sort(Ritual::compareTo);
