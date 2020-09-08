@@ -2,6 +2,7 @@ package com.example.aurumancy.wands;
 
 import com.example.aurumancy.rituals.Ritual;
 import com.example.aurumancy.rituals.Rituals;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUseContext;
@@ -9,7 +10,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.Level;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ public class RitualWandItem extends AbstractWandItem {
         PlayerEntity player = context.getPlayer();
 
         if (player == null) {
-            LOGGER.log(Level.ERROR, "Player is null on RitualWandItem use event: " + context.toString());
+            LOGGER.error("Player is null on RitualWandItem use event: " + context.toString());
             return;
         }
 

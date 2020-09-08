@@ -1,16 +1,15 @@
 package com.example.aurumancy.wands;
 
-import net.minecraft.entity.effect.LightningBoltEntity;
+import com.example.aurumancy.networking.ModPacketHandler;
+import com.example.aurumancy.networking.messages.SummonLightningMessage;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -27,7 +26,7 @@ public class Wands {
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) { }
 
                         @Override
-                        protected void blockUsage(ItemUseContext context) { }
+                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
     public static final RegistryObject<Item> RITUAL_WAND =
@@ -52,7 +51,7 @@ public class Wands {
                         }
 
                         @Override
-                        protected void blockUsage(ItemUseContext context) { }
+                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
     public static final RegistryObject<Item> ARROW_WAND =
@@ -74,7 +73,7 @@ public class Wands {
                         }
 
                         @Override
-                        protected void blockUsage(ItemUseContext context) { }
+                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
     public static final RegistryObject<Item> STORM_WAND =
@@ -82,15 +81,21 @@ public class Wands {
                     new AbstractWandItem(new Item.Properties().group(ItemGroup.COMBAT), 5) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
+                            // Only do this on client side
+                            if (world.isRemote) return;
+
+                            // Get start vector for raytrace
                             Vec3d eyePos = player.getEyePosition(0);
                             float yaw = player.getYaw(0);
                             float pitch = player.getPitch(0);
                             int range = 100;
 
+                            // Get offsets for raytrace
                             float f = -MathHelper.sin(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * range;
                             float f1 = -MathHelper.sin(pitch * ((float)Math.PI / 180F)) * range;
                             float f2 = MathHelper.cos(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * range;
 
+                            // Find first block within range along the ray
                             RayTraceContext rayContext = new RayTraceContext(
                                     eyePos,
                                     new Vec3d(eyePos.x + f, eyePos.y + f1, eyePos.z + f2),
@@ -102,16 +107,17 @@ public class Wands {
                             LOGGER.debug("Target: " + hit.toString());
 
                             if (rayResult.getType() != RayTraceResult.Type.MISS) {
-                                world.addEntity(new LightningBoltEntity(world,hit.x,hit.y,hit.z,false));
+                                // Tell the server to summon lightning
+                                ModPacketHandler.INSTANCE.sendToServer(new SummonLightningMessage(new BlockPos(hit.x, hit.y, hit.z)));
                             }
                             else {
-                                // refund the mana cost on a miss
+                                // Refund the mana cost that was deducted on a miss
                                 player.giveExperiencePoints(xpCost);
                             }
                         }
 
                         @Override
-                        protected void blockUsage(ItemUseContext context) { }
+                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
 }

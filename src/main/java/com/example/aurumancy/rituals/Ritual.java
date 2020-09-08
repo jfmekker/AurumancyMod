@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class Ritual implements Comparable {
+public class Ritual implements Comparable<Ritual> {
 
     private Block[][] blocks;
     private  int size;
@@ -69,9 +69,7 @@ public class Ritual implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        Ritual other = (Ritual)o;
-
+    public int compareTo(Ritual other) {
         if (this == other) {
             return 0;
         }

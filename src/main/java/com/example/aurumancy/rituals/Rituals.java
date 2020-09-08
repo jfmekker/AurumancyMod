@@ -1,6 +1,7 @@
 package com.example.aurumancy.rituals;
 
 import com.example.aurumancy.wands.Wands;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.item.ItemEntity;
@@ -10,6 +11,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import org.apache.logging.log4j.LogManager;
 import java.util.ArrayList;
 import java.util.List;
