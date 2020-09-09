@@ -5,6 +5,7 @@ import com.example.aurumancy.rituals.Rituals;
 import com.example.aurumancy.wands.Wands;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 @Mod("aurumancy")
 public class Aurumancy
 {
+    public static final ItemGroup ITEM_GROUP = new AurumancyItemGroup("Aurumancy");
+
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 

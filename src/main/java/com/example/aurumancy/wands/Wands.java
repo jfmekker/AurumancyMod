@@ -1,12 +1,12 @@
 package com.example.aurumancy.wands;
 
+import com.example.aurumancy.Aurumancy;
 import com.example.aurumancy.networking.ModPacketHandler;
 import com.example.aurumancy.networking.messages.SummonLightningMessage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
@@ -23,7 +23,7 @@ public class Wands {
 
     public static final RegistryObject<Item> NULL_WAND =
             WAND_ITEMS.register("null_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(ItemGroup.COMBAT), 0) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) { }
 
@@ -33,11 +33,11 @@ public class Wands {
 
     public static final RegistryObject<Item> RITUAL_WAND =
             WAND_ITEMS.register("ritual_wand", () ->
-                    new RitualWandItem(new Item.Properties().group(ItemGroup.COMBAT)));
+                    new RitualWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP)));
 
     public static final RegistryObject<Item> JUMP_WAND =
             WAND_ITEMS.register("jump_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(ItemGroup.COMBAT), 1) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 1) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
                             if (player.isAirBorne) {
@@ -58,7 +58,7 @@ public class Wands {
 
     public static final RegistryObject<Item> ARROW_WAND =
             WAND_ITEMS.register("arrow_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(ItemGroup.COMBAT), 0) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
                             if (world.isRemote) return;
@@ -81,7 +81,7 @@ public class Wands {
 
     public static final RegistryObject<Item> STORM_WAND =
             WAND_ITEMS.register("storm_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(ItemGroup.COMBAT), 5) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 5) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
                             // Only do this on client side
