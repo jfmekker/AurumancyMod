@@ -15,6 +15,8 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Random;
+
 public class Wands {
 
     public static final DeferredRegister<Item> WAND_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, "aurumancy");
@@ -59,17 +61,18 @@ public class Wands {
                     new AbstractWandItem(new Item.Properties().group(ItemGroup.COMBAT), 0) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
+                            if (world.isRemote) return;
+
                             Vec3d eyePos = player.getEyePosition(0);
-                            float yaw = player.getYaw(0);
-                            float pitch = player.getPitch(0);
-
-                            float f = -MathHelper.sin(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * 2;
-                            float f1 = -MathHelper.sin(pitch * ((float)Math.PI / 180F)) * 2;
-                            float f2 = MathHelper.cos(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * 2;
-
-                            ArrowEntity arrow = new ArrowEntity(world,eyePos.x + f, eyePos.y + f1, eyePos.z + f2);
-                            world.addEntity(arrow);
-                            arrow.shoot(player, pitch, yaw, 0, 1, 0.5f);
+                            Random rand = new Random();
+                            for (int i = 0; i < 10; i += 1) {
+                                float velocity = (rand.nextFloat() * 0.75f) + 1.25f;
+                                ArrowEntity arrow = new ArrowEntity(world,eyePos.x, eyePos.y, eyePos.z);
+                                arrow.setIsCritical(true);
+                                arrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0f, velocity, 10.0f);
+                                arrow.tick();
+                                world.addEntity(arrow);
+                            }
                         }
 
                         @Override
