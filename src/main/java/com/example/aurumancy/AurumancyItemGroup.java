@@ -6,9 +6,7 @@ import net.minecraft.item.Items;
 
 public class AurumancyItemGroup extends ItemGroup {
 
-    public AurumancyItemGroup(String label) {
-        super(label);
-    }
+    public AurumancyItemGroup(String label) { super(label); }
 
     @Override
     public ItemStack createIcon() {

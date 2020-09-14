@@ -6,6 +6,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
+/**
+ * Class to handle sending messages between client and server.
+ */
 public class ModPacketHandler {
 
     private static final String PROTOCOL_VERSION = "1";

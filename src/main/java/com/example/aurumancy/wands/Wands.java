@@ -35,7 +35,7 @@ public class Wands {
             WAND_ITEMS.register("jump_wand", () ->
                     new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 1, WandUsageType.INSTANT) {
                         @Override
-                        protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
+                        protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             if (player.isAirBorne) {
                                 if (player.getMotion().y < 0)
                                     player.setVelocity(player.getMotion().x, 0.75, player.getMotion().z);
@@ -73,7 +73,7 @@ public class Wands {
             WAND_ITEMS.register("storm_wand", () ->
                     new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 5, WandUsageType.INSTANT) {
                         @Override
-                        protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
+                        protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             // Only do this on client side
                             if (world.isRemote) return;
 

@@ -17,16 +17,18 @@ import org.apache.logging.log4j.Logger;
 @Mod("aurumancy")
 public class RitualWandItem extends AbstractWandItem {
 
-    // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
-
+    /**
+     * Construct a new Ritual Wand.
+     * @param properties Item properties object
+     */
     public RitualWandItem(Properties properties) {
         super(properties, 0, WandUsageType.BLOCK);
     }
 
-    @Override
-    protected void rightClickUsage(World world, PlayerEntity player, Hand hand) { }
-
+    /**
+     * Resolve usage on a block. Check for matching rituals with the target block as the center.
+     * @param context Context object of event. Contains block position, world, player, etc.
+     */
     @Override
     protected void blockUsage(ItemUseContext context) {
         World world = context.getWorld();
@@ -53,8 +55,4 @@ public class RitualWandItem extends AbstractWandItem {
         if (!ritualMatched) LOGGER.info("RitualWandItem failed to match any rituals.");
     }
 
-    @Override
-    public String toString() {
-        return "RitualWandItem{}";
-    }
 }

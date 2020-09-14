@@ -20,7 +20,7 @@ import org.apache.logging.log4j.LogManager;
  * BlockPos.y     VarInt
  * BlockPos.z     VarInt
  *
- **/
+ */
 public class SummonLightningMessage extends ModMessage {
 
     private BlockPos pos;

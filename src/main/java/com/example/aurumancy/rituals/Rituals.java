@@ -68,8 +68,14 @@ public class Rituals {
                         }
                     });
 
+    /**
+     * Sorted list of all rituals to check against. Sorted by size so big rituals get checked first.
+     */
     public static final List<Ritual> RITUAL_SORTED_LIST = new ArrayList<Ritual>();
 
+    /**
+     * Add all the rituals to the list, then sort it.
+     */
     public static void initSortedRitualList() {
         if (RITUAL_SORTED_LIST.size() > 0) return;
 
