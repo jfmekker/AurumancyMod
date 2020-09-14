@@ -7,7 +7,9 @@ import com.example.aurumancy.networking.messages.SummonLightningMessage;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
@@ -23,13 +25,7 @@ public class Wands {
 
     public static final RegistryObject<Item> NULL_WAND =
             WAND_ITEMS.register("null_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0) {
-                        @Override
-                        protected void rightClickUsage(World world, PlayerEntity player, Hand hand) { }
-
-                        @Override
-                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
-                    });
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0, WandUsageType.CHARGED) { });
 
     public static final RegistryObject<Item> RITUAL_WAND =
             WAND_ITEMS.register("ritual_wand", () ->
@@ -37,7 +33,7 @@ public class Wands {
 
     public static final RegistryObject<Item> JUMP_WAND =
             WAND_ITEMS.register("jump_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 1) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 1, WandUsageType.INSTANT) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
                             if (player.isAirBorne) {
@@ -51,16 +47,13 @@ public class Wands {
                             }
                             player.fallDistance = 0;
                         }
-
-                        @Override
-                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
     public static final RegistryObject<Item> ARROW_WAND =
             WAND_ITEMS.register("arrow_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0, WandUsageType.CHARGED) {
                         @Override
-                        protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
+                        protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
 
                             Vec3d eyePos = player.getEyePosition(0);
@@ -74,26 +67,23 @@ public class Wands {
                                 world.addEntity(arrow);
                             }
                         }
-
-                        @Override
-                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
     public static final RegistryObject<Item> STORM_WAND =
             WAND_ITEMS.register("storm_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 5) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 5, WandUsageType.INSTANT) {
                         @Override
                         protected void rightClickUsage(World world, PlayerEntity player, Hand hand) {
                             // Only do this on client side
                             if (world.isRemote) return;
 
-                            // Get start vector for raytrace
+                            // Get start vector for ray-trace
                             Vec3d eyePos = player.getEyePosition(0);
                             float yaw = player.getYaw(0);
                             float pitch = player.getPitch(0);
                             int range = 100;
 
-                            // Get offsets for raytrace
+                            // Get offsets for ray-trace
                             float f = -MathHelper.sin(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * range;
                             float f1 = -MathHelper.sin(pitch * ((float)Math.PI / 180F)) * range;
                             float f2 = MathHelper.cos(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * range;
@@ -118,9 +108,6 @@ public class Wands {
                                 player.giveExperiencePoints(xpCost);
                             }
                         }
-
-                        @Override
-                        protected void blockUsage(ItemUseContext context) { /* nothing */ }
                     });
 
 }

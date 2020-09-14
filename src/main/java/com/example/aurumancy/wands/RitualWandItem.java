@@ -21,7 +21,7 @@ public class RitualWandItem extends AbstractWandItem {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public RitualWandItem(Properties properties) {
-        super(properties, 0);
+        super(properties, 0, WandUsageType.BLOCK);
     }
 
     @Override
@@ -39,6 +39,8 @@ public class RitualWandItem extends AbstractWandItem {
             return;
         }
 
+        if (world.isRemote) return;
+
         boolean ritualMatched = false;
         for (Ritual r : Rituals.RITUAL_SORTED_LIST) {
             if (r.validateRitualComponents(world,pos)) {
@@ -49,5 +51,10 @@ public class RitualWandItem extends AbstractWandItem {
             }
         }
         if (!ritualMatched) LOGGER.info("RitualWandItem failed to match any rituals.");
+    }
+
+    @Override
+    public String toString() {
+        return "RitualWandItem{}";
     }
 }
