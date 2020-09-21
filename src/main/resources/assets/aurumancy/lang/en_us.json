@@ -1,5 +1,8 @@
 {
   "item.aurumancy.ritual_wand": "Ritual Wand",
   "item.aurumancy.storm_wand": "Wand of Lightning",
-  "item.aurumancy.arrow_wand": "Arrow shotgun"
+  "item.aurumancy.arrow_wand": "Arrow-shotgun Wand",
+  "item.aurumancy.null_wand": "Do-nothing Wand",
+  "item.aurumancy.jump_wand": "Wand of Air-jumps",
+  "item.aurumancy.fireball_wand": "Wand of Fireballs"
 }

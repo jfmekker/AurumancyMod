@@ -6,11 +6,9 @@ import com.example.aurumancy.networking.messages.SummonLightningMessage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
-import net.minecraft.util.Hand;
+import net.minecraft.item.ItemStack;import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
@@ -77,21 +75,15 @@ public class Wands {
                             // Only do this on client side
                             if (world.isRemote) return;
 
-                            // Get start vector for ray-trace
+                            // Get start and look vector for ray-trace
                             Vec3d eyePos = player.getEyePosition(0);
-                            float yaw = player.getYaw(0);
-                            float pitch = player.getPitch(0);
+                            Vec3d lookVec = player.getLook(0);
                             int range = 100;
-
-                            // Get offsets for ray-trace
-                            float f = -MathHelper.sin(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * range;
-                            float f1 = -MathHelper.sin(pitch * ((float)Math.PI / 180F)) * range;
-                            float f2 = MathHelper.cos(yaw * ((float)Math.PI / 180F)) * MathHelper.cos(pitch * ((float)Math.PI / 180F)) * range;
 
                             // Find first block within range along the ray
                             RayTraceContext rayContext = new RayTraceContext(
                                     eyePos,
-                                    new Vec3d(eyePos.x + f, eyePos.y + f1, eyePos.z + f2),
+                                    eyePos.add(lookVec.scale(range)),
                                     RayTraceContext.BlockMode.COLLIDER,
                                     RayTraceContext.FluidMode.SOURCE_ONLY, player);
                             RayTraceResult rayResult = world.rayTraceBlocks(rayContext);
@@ -107,6 +99,25 @@ public class Wands {
                                 // Refund the mana cost that was deducted on a miss
                                 player.giveExperiencePoints(xpCost);
                             }
+                        }
+                    });
+
+    public static final RegistryObject<Item> FIREBALL_WAND =
+            WAND_ITEMS.register("fireball_wand", () ->
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 9, WandUsageType.CHARGED) {
+                        @Override
+                        protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
+                            if (world.isRemote) return;
+
+                            Vec3d eyePos = player.getEyePosition(0);
+                            Vec3d lookVec = player.getLook(0);
+                            FireballEntity fireball = new FireballEntity(world,
+                                    eyePos.x,eyePos.y,eyePos.z,
+                                    lookVec.x,lookVec.y,lookVec.z);
+                            fireball.explosionPower = 3;
+                            fireball.shootingEntity = player;
+                            fireball.tick();
+                            world.addEntity(fireball);
                         }
                     });
 

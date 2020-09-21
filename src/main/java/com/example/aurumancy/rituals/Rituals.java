@@ -40,6 +40,7 @@ public class Rituals {
                     new RitualAction() {
                         @Override
                         public void doAction(World world, BlockPos pos, PlayerEntity player) {
+                            if (world.isRemote) return;
                             Thread t = new Thread(() -> {
                                 world.setBlockState(pos, Blocks.NETHER_PORTAL.getDefaultState());
                                 world.setBlockState(pos.add(0,1,0), Blocks.NETHER_PORTAL.getDefaultState());
@@ -68,6 +69,22 @@ public class Rituals {
                         }
                     });
 
+    public static final Ritual FIREBALL_WAND_CREATE =
+            Ritual.BuildValidRitual(new Block[][]{
+                            {Blocks.LAPIS_BLOCK,    Blocks.TNT,         null,               Blocks.TNT,         Blocks.LAPIS_BLOCK},
+                            {Blocks.TNT,            null,               Blocks.GOLD_BLOCK,  null,               Blocks.TNT},
+                            {null,                  Blocks.GOLD_BLOCK,  Blocks.GLOWSTONE,   Blocks.GOLD_BLOCK,  null},
+                            {Blocks.TNT,            null,               Blocks.GOLD_BLOCK,  null,               Blocks.TNT},
+                            {Blocks.LAPIS_BLOCK,    Blocks.TNT,         null,               Blocks.TNT,         Blocks.LAPIS_BLOCK}},
+                    405,
+                    new RitualAction() {
+                        @Override
+                        public void doAction(World world, BlockPos pos, PlayerEntity player) {
+                            world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
+                                    new ItemStack(Wands.FIREBALL_WAND.get())));
+                        }
+                    });
+
     /**
      * Sorted list of all rituals to check against. Sorted by size so big rituals get checked first.
      */
@@ -83,6 +100,7 @@ public class Rituals {
         RITUAL_SORTED_LIST.add(SPEEDY_LAPIS);
         RITUAL_SORTED_LIST.add(NETHER_TELEPORT);
         RITUAL_SORTED_LIST.add(JUMP_WAND_CREATE);
+        RITUAL_SORTED_LIST.add(FIREBALL_WAND_CREATE);
 
         RITUAL_SORTED_LIST.sort(Ritual::compareTo);
     }
