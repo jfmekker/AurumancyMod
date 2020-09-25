@@ -8,7 +8,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;import net.minecraft.util.Hand;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
@@ -49,7 +50,7 @@ public class Wands {
 
     public static final RegistryObject<Item> ARROW_WAND =
             WAND_ITEMS.register("arrow_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0, WandUsageType.CHARGED) {
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 2, WandUsageType.CHARGED) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -87,13 +88,13 @@ public class Wands {
                                     RayTraceContext.BlockMode.COLLIDER,
                                     RayTraceContext.FluidMode.SOURCE_ONLY, player);
                             RayTraceResult rayResult = world.rayTraceBlocks(rayContext);
-                            Vec3d hit = rayResult.getHitVec();
+                            BlockPos hit = new BlockPos(rayResult.getHitVec());
                             LOGGER.debug("Type: " + rayResult.getType());
                             LOGGER.debug("Target: " + hit.toString());
 
                             if (rayResult.getType() != RayTraceResult.Type.MISS) {
                                 // Tell the server to summon lightning
-                                ModPacketHandler.INSTANCE.sendToServer(new SummonLightningMessage(new BlockPos(hit.x, hit.y, hit.z)));
+                                ModPacketHandler.INSTANCE.sendToServer(new SummonLightningMessage(hit.add(1,0,1)));
                             }
                             else {
                                 // Refund the mana cost that was deducted on a miss

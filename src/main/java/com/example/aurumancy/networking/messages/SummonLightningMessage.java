@@ -51,7 +51,7 @@ public class SummonLightningMessage extends ModMessage {
             ServerPlayerEntity spe = context.get().getSender();
             if (spe != null && spe.world.isAreaLoaded(pos, 1)) {
                 LogManager.getLogger().debug("SummonLightningMessage summoning lightning.");
-                LightningBoltEntity bolt = new LightningBoltEntity(spe.world,pos.getX()+0.5, pos.getY(), pos.getZ()+0.5, false);
+                LightningBoltEntity bolt = new LightningBoltEntity(spe.world,pos.getX(), pos.getY(), pos.getZ(), false);
                 bolt.setCaster(spe);
                 bolt.setPosition(pos.getX(),pos.getY(),pos.getZ());
                 spe.getEntityWorld().addEntity(bolt);

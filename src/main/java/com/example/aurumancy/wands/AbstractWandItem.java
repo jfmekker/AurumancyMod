@@ -102,6 +102,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         // Deduct mana and do the effect if we have enough and this matches our usage
+
         if (context.getPlayer() != null
                 && context.getPlayer().experienceTotal >= xpCost
                 && this.usage == WandUsageType.BLOCK) {

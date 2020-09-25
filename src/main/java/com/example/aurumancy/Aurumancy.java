@@ -1,5 +1,6 @@
 package com.example.aurumancy;
 
+import com.example.aurumancy.blocks.AurumancyBlocks;
 import com.example.aurumancy.networking.ModPacketHandler;
 import com.example.aurumancy.rituals.Rituals;
 import com.example.aurumancy.wands.Wands;
@@ -44,6 +45,8 @@ public class Aurumancy
         MinecraftForge.EVENT_BUS.register(this);
 
         Wands.WAND_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AurumancyBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AurumancyBlocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private void setup(final FMLCommonSetupEvent event)
