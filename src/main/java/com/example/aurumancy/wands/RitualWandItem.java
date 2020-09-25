@@ -42,6 +42,7 @@ public class RitualWandItem extends AbstractWandItem {
         }
 
         if (world.isRemote) return;
+        super.blockUsage(context);
 
         boolean ritualMatched = false;
         for (Ritual r : Rituals.RITUAL_SORTED_LIST) {

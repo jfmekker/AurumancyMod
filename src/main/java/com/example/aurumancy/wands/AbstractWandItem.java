@@ -29,7 +29,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      * @param use How is the wand used? On a block, charged, or instant?
      */
     public AbstractWandItem(Properties properties, int cost, WandUsageType use) {
-        super(properties);
+        super(properties.maxStackSize(1));
         this.xpCost = cost;
         this.usage = use;
     }

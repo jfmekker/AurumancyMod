@@ -35,6 +35,8 @@ public class Wands {
                     new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 1, WandUsageType.INSTANT) {
                         @Override
                         protected void instantUsage(World world, PlayerEntity player, Hand hand) {
+                            super.instantUsage(world, player, hand);
+
                             if (player.isAirBorne) {
                                 if (player.getMotion().y < 0)
                                     player.setVelocity(player.getMotion().x, 0.75, player.getMotion().z);
@@ -54,6 +56,7 @@ public class Wands {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
+                            super.chargedUsage(stack, world, player);
 
                             Vec3d eyePos = player.getEyePosition(0);
                             Random rand = new Random();
@@ -75,6 +78,7 @@ public class Wands {
                         protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             // Only do this on client side
                             if (world.isRemote) return;
+                            super.instantUsage(world, player, hand);
 
                             // Get start and look vector for ray-trace
                             Vec3d eyePos = player.getEyePosition(0);
@@ -109,6 +113,7 @@ public class Wands {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
+                            super.chargedUsage(stack, world, player);
 
                             Vec3d eyePos = player.getEyePosition(0);
                             Vec3d lookVec = player.getLook(0);
@@ -121,5 +126,15 @@ public class Wands {
                             world.addEntity(fireball);
                         }
                     });
+
+    public static final RegistryObject<Item> TELEPORT_WAND =
+            WAND_ITEMS.register("teleport_wand", () ->
+                    new RecallWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP),
+                            15, WandUsageType.INSTANT)); // TODO change
+
+    public static final RegistryObject<Item> RECALL_WAND =
+            WAND_ITEMS.register("recall_wand", () ->
+                    new RecallWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP),
+                            15, WandUsageType.INSTANT));
 
 }
