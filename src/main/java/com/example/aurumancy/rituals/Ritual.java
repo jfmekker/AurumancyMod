@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 
@@ -20,7 +21,7 @@ public class Ritual implements Comparable<Ritual> {
     /**
      * Size of the 'blocks' array.
      */
-    private  int size;
+    public int size;
 
     /**
      * Cost to conduct the ritual.
@@ -42,8 +43,12 @@ public class Ritual implements Comparable<Ritual> {
     public static @Nullable Ritual BuildValidRitual(Block[][] blockSet, int cost, @Nullable RitualAction action) {
         if (blockSet == null
                 || blockSet.length != blockSet[0].length
-                || blockSet.length % 2 != 1)
+                || blockSet.length % 2 != 1
+                || blockSet[blockSet.length / 2][blockSet.length / 2] == null) {
+            LogManager.getLogger().debug("BuildValidRitual failed.");
             return null;
+        }
+
         return new Ritual(blockSet, cost, action);
     }
 
@@ -117,19 +122,10 @@ public class Ritual implements Comparable<Ritual> {
     /**
      * Compare to another ritual for sorting.
      * @param other Other ritual to compare against.
-     * @return Difference in ritual size, or comparator of center blocks.
+     * @return Difference in ritual size.
      */
     @Override
     public int compareTo(Ritual other) {
-        if (this == other) {
-            return 0;
-        }
-
-        if (size == other.size) {
-            return (getCenter().getRegistryName().compareTo(other.getCenter().getRegistryName()));
-        }
-        else {
-            return size - other.size;
-        }
+        return size - other.size;
     }
 }

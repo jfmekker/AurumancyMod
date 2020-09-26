@@ -129,8 +129,31 @@ public class Wands {
 
     public static final RegistryObject<Item> TELEPORT_WAND =
             WAND_ITEMS.register("teleport_wand", () ->
-                    new RecallWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP),
-                            15, WandUsageType.INSTANT)); // TODO change
+                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 12, WandUsageType.CHARGED) {
+                        @Override
+                        protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
+                            if (world.isRemote) return;
+                            super.chargedUsage(stack, world, player);
+
+                            // Get start and look vector for ray-trace
+                            Vec3d eyePos = player.getEyePosition(0);
+                            Vec3d lookVec = player.getLook(0);
+                            int range = 128;
+
+                            // Find first block within range along the ray
+                            RayTraceContext rayContext = new RayTraceContext(
+                                    eyePos,
+                                    eyePos.add(lookVec.scale(range)),
+                                    RayTraceContext.BlockMode.COLLIDER,
+                                    RayTraceContext.FluidMode.SOURCE_ONLY, player);
+                            RayTraceResult rayResult = world.rayTraceBlocks(rayContext);
+
+                            // Move 1 block back towards player
+                            Vec3d pos = rayResult.getHitVec().add(lookVec.scale(-1));
+
+                            player.attemptTeleport(pos.x,pos.y,pos.z,false);
+                        }
+                    });
 
     public static final RegistryObject<Item> RECALL_WAND =
             WAND_ITEMS.register("recall_wand", () ->

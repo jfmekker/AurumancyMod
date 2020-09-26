@@ -6,6 +6,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -90,6 +91,9 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
                 return ActionResult.resultSuccess(player.getHeldItem(hand));
             }
         }
+        else {
+            player.sendMessage(new StringTextComponent("Not enough mana to use this item!"));
+        }
 
         return super.onItemRightClick(world, player, hand);
     }
@@ -103,13 +107,16 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
     public ActionResultType onItemUse(ItemUseContext context) {
         // Deduct mana and do the effect if we have enough and this matches our usage
 
-        if (context.getPlayer() != null
-                && context.getPlayer().experienceTotal >= xpCost
-                && this.usage == WandUsageType.BLOCK) {
-            LOGGER.debug("Player used wand on block: " + this.toString());
-            context.getPlayer().giveExperiencePoints(-xpCost);
-            this.blockUsage(context);
-            return ActionResultType.SUCCESS;
+        if (context.getPlayer() != null && this.usage == WandUsageType.BLOCK) {
+            if (context.getPlayer().experienceTotal >= xpCost) {
+                LOGGER.debug("Player used wand on block: " + this.toString());
+                context.getPlayer().giveExperiencePoints(-xpCost);
+                this.blockUsage(context);
+                return ActionResultType.SUCCESS;
+            }
+            else {
+                context.getPlayer().sendMessage(new StringTextComponent("Not enough mana to use this item!"));
+            }
         }
 
         return super.onItemUse(context);
@@ -129,9 +136,14 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
         PlayerEntity player = (PlayerEntity)entityLiving;
 
         // Deduct mana and do the effect
-        if (player.experienceTotal >= xpCost && timeLeft <= 71980) { // TODO do time calculation properly
-            player.giveExperiencePoints(-xpCost);
-            this.chargedUsage(stack, world, player);
+        if (player.experienceTotal >= xpCost) {
+            if (timeLeft <= 71980) { // TODO do time calculation properly
+                player.giveExperiencePoints(-xpCost);
+                this.chargedUsage(stack, world, player);
+            }
+        }
+        else {
+            player.sendMessage(new StringTextComponent("Not enough mana to use this item!"));
         }
         LOGGER.debug("Player stopped using " + this.toString() + " with " + timeLeft + " time left.");
     }

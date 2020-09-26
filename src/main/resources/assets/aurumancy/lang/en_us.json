@@ -4,5 +4,7 @@
   "item.aurumancy.arrow_wand": "Arrow-shotgun Wand",
   "item.aurumancy.null_wand": "Do-nothing Wand",
   "item.aurumancy.jump_wand": "Wand of Air-jumps",
-  "item.aurumancy.fireball_wand": "Wand of Fireballs"
+  "item.aurumancy.fireball_wand": "Wand of Fireballs",
+  "item.aurumancy.teleport_wand": "Wand of Transportation",
+  "item.aurumancy.recall_wand": "Wand of Location Recall"
 }
