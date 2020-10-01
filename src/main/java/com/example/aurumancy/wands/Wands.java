@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class Wands {
 
-    public static final DeferredRegister<Item> WAND_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, "aurumancy");
+    public static final DeferredRegister<Item> WAND_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, Aurumancy.MODID);
 
     public static final RegistryObject<Item> NULL_WAND =
             WAND_ITEMS.register("null_wand", () ->

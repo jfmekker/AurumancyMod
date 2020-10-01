@@ -1,5 +1,6 @@
 package com.example.aurumancy.networking;
 
+import com.example.aurumancy.Aurumancy;
 import com.example.aurumancy.networking.messages.SummonLightningMessage;
 
 import net.minecraft.util.ResourceLocation;
@@ -13,7 +14,7 @@ public class ModPacketHandler {
 
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("aurumancy", "main"),
+            new ResourceLocation(Aurumancy.MODID, "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals

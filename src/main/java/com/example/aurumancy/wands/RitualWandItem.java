@@ -1,20 +1,17 @@
 package com.example.aurumancy.wands;
 
+import com.example.aurumancy.Aurumancy;
 import com.example.aurumancy.rituals.Ritual;
 import com.example.aurumancy.rituals.Rituals;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-@Mod("aurumancy")
+@Mod(Aurumancy.MODID)
 public class RitualWandItem extends AbstractWandItem {
 
     /**

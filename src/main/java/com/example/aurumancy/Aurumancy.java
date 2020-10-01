@@ -24,9 +24,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Collectors;
 
-@Mod("aurumancy")
+@Mod(Aurumancy.MODID)
 public class Aurumancy
 {
+    public static final String MODID = "aurumancy";
+
     public static final ItemGroup ITEM_GROUP = new AurumancyItemGroup("Aurumancy");
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -47,6 +49,7 @@ public class Aurumancy
         Wands.WAND_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AurumancyBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AurumancyBlocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AurumancyBlocks.TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private void setup(final FMLCommonSetupEvent event)
@@ -67,7 +70,7 @@ public class Aurumancy
     private void enqueueIMC(final InterModEnqueueEvent event)
     {
         // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("aurumancy", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+        InterModComms.sendTo(Aurumancy.MODID, "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
     }
 
     private void processIMC(final InterModProcessEvent event)
