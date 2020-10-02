@@ -1,5 +1,6 @@
 package com.example.aurumancy.blocks;
 
+import javafx.geometry.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +16,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class TeleportCircleBlock extends Block {
 
-    public static List<Tuple<World, BlockPos>> circles = new ArrayList<>();
+    public static List<Tuple<DimensionType, BlockPos>> circles = new ArrayList<>();
 
     private static int xp_cost = 9;
 
@@ -48,6 +50,10 @@ public class TeleportCircleBlock extends Block {
 
         TeleportCircleTileEntity here = (TeleportCircleTileEntity) world.getTileEntity(pos);
         if (here == null || !here.checkValidityAndColor()) return ActionResultType.FAIL;
+        if (!isInCircleList(world, pos)) {
+            LogManager.getLogger().debug("Adding circle to list.");
+            circles.add(new Tuple<>(world.dimension.getType(), pos));
+        }
 
         if (player.experienceTotal < xp_cost) {
             player.sendMessage(new StringTextComponent("You don't have enough mana to use this."));
@@ -55,14 +61,15 @@ public class TeleportCircleBlock extends Block {
         }
 
         List<TeleportCircleTileEntity> world_tc_te = new ArrayList<>();
-        for (int i = 0 ; i < circles.size() ; i++) {
-            if (!(circles.get(i).getA().getTileEntity(circles.get(i).getB()) instanceof TeleportCircleTileEntity)) {
+        for (int i = 0 ; i < circles.size() ; i += 1) {
+            if (world.dimension.getType() != circles.get(i).getA()) continue;
+            if (!(world.getTileEntity(circles.get(i).getB()) instanceof TeleportCircleTileEntity)) {
                 LogManager.getLogger().debug("Removing circle from list.");
                 circles.remove(i);
                 i -= 1;
             }
             else {
-                world_tc_te.add((TeleportCircleTileEntity)circles.get(i).getA().getTileEntity(circles.get(i).getB()));
+                world_tc_te.add((TeleportCircleTileEntity)world.getTileEntity(circles.get(i).getB()));
             }
         }
 
@@ -110,6 +117,13 @@ public class TeleportCircleBlock extends Block {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         if (!worldIn.isRemote) return;
         LogManager.getLogger().debug("Adding circle to list.");
-        circles.add(new Tuple<>(worldIn, pos));
+        circles.add(new Tuple<>(worldIn.dimension.getType(), pos));
+    }
+
+    private boolean isInCircleList(World world, BlockPos pos) {
+        for (Tuple<DimensionType,BlockPos> t : circles) {
+            if (t.getA() == world.dimension.getType() && t.getB().equals(pos)) return true;
+        }
+        return false;
     }
 }
