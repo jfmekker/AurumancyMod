@@ -34,4 +34,16 @@ public class AurumancyBlocks {
                     () -> TileEntityType.Builder.create(
                             StarlightCollectorTileEntity::new, STARLIGHT_COLLECTOR.get()
                     ).build(null));
+
+    public static final RegistryObject<Block> TELEPORT_CIRCLE =
+            BLOCKS.register("teleport_circle",
+                    () -> new TeleportCircleBlock(Block.Properties.create(Material.ROCK)));
+    public static final RegistryObject<Item> TELEPORT_CIRCLE_ITEM =
+            BLOCK_ITEMS.register("teleport_circle",
+                    () -> new BlockItem(TELEPORT_CIRCLE.get(), new Item.Properties().group(Aurumancy.ITEM_GROUP)));
+    public static final RegistryObject<TileEntityType<?>> TELEPORT_CIRCLE_TILE_ENTITY_TYPE =
+            TILE_ENTITY_TYPES.register("teleport_circle",
+                    () -> TileEntityType.Builder.create(
+                            TeleportCircleTileEntity::new, TELEPORT_CIRCLE.get()
+                    ).build(null));
 }
