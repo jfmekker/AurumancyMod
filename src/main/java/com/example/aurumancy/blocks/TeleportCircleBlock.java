@@ -2,14 +2,18 @@ package com.example.aurumancy.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeleportCircleBlock extends Block {
+
+    public static List<Tuple<World, BlockPos>> circles = new ArrayList<>();
 
     private static int xp_cost = 9;
 
@@ -48,31 +54,42 @@ public class TeleportCircleBlock extends Block {
             return ActionResultType.PASS;
         }
 
-        List<TeleportCircleTileEntity> filtered = new ArrayList<>();
-        for (TileEntity te : world.loadedTileEntityList) {
-            if (te instanceof TeleportCircleTileEntity && here != te) {
-                TeleportCircleTileEntity tc_te = (TeleportCircleTileEntity) te;
+        List<TeleportCircleTileEntity> world_tc_te = new ArrayList<>();
+        for (int i = 0 ; i < circles.size() ; i++) {
+            if (!(circles.get(i).getA().getTileEntity(circles.get(i).getB()) instanceof TeleportCircleTileEntity)) {
+                LogManager.getLogger().debug("Removing circle from list.");
+                circles.remove(i);
+                i -= 1;
+            }
+            else {
+                world_tc_te.add((TeleportCircleTileEntity)circles.get(i).getA().getTileEntity(circles.get(i).getB()));
+            }
+        }
+
+        List<TeleportCircleTileEntity> matching = new ArrayList<>();
+        for (TeleportCircleTileEntity tc_te : world_tc_te) {
+            if (here != tc_te) {
                 if (tc_te.checkValidityAndColor() && tc_te.color == here.color) {
-                    filtered.add((TeleportCircleTileEntity)te);
+                    matching.add(tc_te);
                     LogManager.getLogger().debug("Matching " + tc_te.color + " circle found "
-                            + here.getPos().manhattanDistance(te.getPos())
+                            + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
                 else if (tc_te.checkValidityAndColor()) {
                     LogManager.getLogger().debug("Non-matching " + tc_te.color + " circle found "
-                            + here.getPos().manhattanDistance(te.getPos())
+                            + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
                 else {
                     LogManager.getLogger().debug("Invalid circle found "
-                            + here.getPos().manhattanDistance(te.getPos())
+                            + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
             }
         }
 
-        if (filtered.size() > 0) {
-            TeleportCircleTileEntity dest = filtered.get(world.rand.nextInt(filtered.size()));
+        if (matching.size() > 0) {
+            TeleportCircleTileEntity dest = matching.get(world.rand.nextInt(matching.size()));
             player.attemptTeleport(
                     dest.getPos().getX() + 0.5,
                     dest.getPos().getY() + 1,
@@ -86,5 +103,13 @@ public class TeleportCircleBlock extends Block {
         }
 
         return ActionResultType.SUCCESS;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        if (!worldIn.isRemote) return;
+        LogManager.getLogger().debug("Adding circle to list.");
+        circles.add(new Tuple<>(worldIn, pos));
     }
 }

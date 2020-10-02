@@ -28,19 +28,6 @@ public class TeleportCircleTileEntity extends TileEntity {
         super(AurumancyBlocks.TELEPORT_CIRCLE_TILE_ENTITY_TYPE.get());
     }
 
-    @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        color = DyeColor.byId(compound.getInt("color"));
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-        compound.putInt("color", color.getId());
-        return compound;
-    }
-
     public boolean checkValidityAndColor() {
         if (!hasWorld() || getWorld() == null) return false;
         World w = getWorld();
