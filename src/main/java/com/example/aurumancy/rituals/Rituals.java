@@ -1,5 +1,6 @@
 package com.example.aurumancy.rituals;
 
+import com.example.aurumancy.Aurumancy;
 import com.example.aurumancy.wands.Wands;
 
 import net.minecraft.block.Block;
@@ -12,10 +13,8 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.storage.loot.LootContext;
-import org.apache.logging.log4j.LogManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +50,7 @@ public class Rituals {
                                 world.setBlockState(pos, NETHER_PORTAL.getDefaultState());
                                 world.setBlockState(pos.add(0,1,0), NETHER_PORTAL.getDefaultState());
                                 try { this.wait(5000); }
-                                catch (Exception e) { LogManager.getLogger().error(e.getMessage()); }
+                                catch (Exception e) { Aurumancy.LOGGER.error(e.getMessage()); }
                                 if (world.getBlockState(pos).getBlock().equals(NETHER_PORTAL)) {
                                     world.destroyBlock(pos, false);
                                     world.destroyBlock(pos.add(0,1,0), false);
@@ -161,11 +160,11 @@ public class Rituals {
         // Remove nulls
         for (int i = 0; i < RITUAL_SORTED_LIST.size(); i++) {
             if (RITUAL_SORTED_LIST.get(i) == null) {
-                LogManager.getLogger().error("Found null in Ritual list.");
+                Aurumancy.LOGGER.error("Found null in Ritual list.");
                 RITUAL_SORTED_LIST.remove(i);
                 i -= 1;
             }
-            else LogManager.getLogger().debug("Ritual #" + i + " size=" + RITUAL_SORTED_LIST.get(i).size);
+            else Aurumancy.LOGGER.debug("Ritual #" + i + " size=" + RITUAL_SORTED_LIST.get(i).size);
         }
 
         // Put in descending order by size

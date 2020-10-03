@@ -1,8 +1,9 @@
 package com.example.aurumancy.utils;
 
+import com.example.aurumancy.Aurumancy;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.DyeColor;
-import org.apache.logging.log4j.LogManager;
 
 import static net.minecraft.block.Blocks.*;
 
@@ -26,7 +27,7 @@ public class ColorChecker {
         if (block == RED_GLAZED_TERRACOTTA) return DyeColor.RED;
         if (block == BLACK_GLAZED_TERRACOTTA) return DyeColor.BLACK;
         else {
-            LogManager.getLogger().debug("Unsupported block " + block.toString() + " given to ColorChecker. Returning null by default.");
+            Aurumancy.LOGGER.debug("Unsupported block " + block.toString() + " given to ColorChecker. Returning null by default.");
             return null;
         }
     }

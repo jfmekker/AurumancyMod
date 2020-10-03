@@ -93,8 +93,8 @@ public class Wands {
                                     RayTraceContext.FluidMode.SOURCE_ONLY, player);
                             RayTraceResult rayResult = world.rayTraceBlocks(rayContext);
                             BlockPos hit = new BlockPos(rayResult.getHitVec());
-                            LOGGER.debug("Type: " + rayResult.getType());
-                            LOGGER.debug("Target: " + hit.toString());
+                            Aurumancy.LOGGER.debug("Type: " + rayResult.getType());
+                            Aurumancy.LOGGER.debug("Target: " + hit.toString());
 
                             if (rayResult.getType() != RayTraceResult.Type.MISS) {
                                 // Tell the server to summon lightning

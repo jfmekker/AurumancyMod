@@ -1,5 +1,7 @@
 package com.example.aurumancy.wands;
 
+import com.example.aurumancy.Aurumancy;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -10,18 +12,12 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.function.Predicate;
 
 /**
  * Base class for Aurumancy wands.
  */
 public abstract class AbstractWandItem extends ShootableItem implements IForgeRegistryEntry<Item> {
-
-    // Easier reference to logger
-    protected static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Construct an AbstractWand. Although abstract, will not actually need to override or define any methods.
@@ -51,7 +47,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      * @param player Player triggering event.
      * @param hand Hand holding item.
      */
-    protected void instantUsage(World world, PlayerEntity player, Hand hand) { LOGGER.debug("Wand using rightClickUsage."); }
+    protected void instantUsage(World world, PlayerEntity player, Hand hand) { Aurumancy.LOGGER.debug("Wand using rightClickUsage."); }
 
     /**
      * Action to do for a charged use (held right-click).
@@ -59,13 +55,13 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      * @param world World event is in.
      * @param player Player triggering event.
      */
-    protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) { LOGGER.debug("Wand using chargedUsage."); }
+    protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) { Aurumancy.LOGGER.debug("Wand using chargedUsage."); }
 
     /**
      * Action to do far a block use (right-click on a block).
      * @param context Context object of event. Contains block position, world, player, etc.
      */
-    protected void blockUsage(ItemUseContext context) { LOGGER.debug("Wand using blockUsage."); }
+    protected void blockUsage(ItemUseContext context) { Aurumancy.LOGGER.debug("Wand using blockUsage."); }
 
     /**
      * Resolve Player right-clicking with a wand. Should not be overridden.
@@ -80,12 +76,12 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
         if (player.experienceTotal >= xpCost) {
             // Start charging or do effect
             if (this.usage == WandUsageType.CHARGED) {
-                LOGGER.debug("Player used wand charged action: " + this.toString());
+                Aurumancy.LOGGER.debug("Player used wand charged action: " + this.toString());
                 player.setActiveHand(hand);
                 return ActionResult.resultSuccess(player.getHeldItem(hand));
             }
             else if (this.usage == WandUsageType.INSTANT) {
-                LOGGER.debug("Player used wand right-click action: " + this.toString());
+                Aurumancy.LOGGER.debug("Player used wand right-click action: " + this.toString());
                 player.giveExperiencePoints(-xpCost);
                 this.instantUsage(world, player, hand);
                 return ActionResult.resultSuccess(player.getHeldItem(hand));
@@ -109,7 +105,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
 
         if (context.getPlayer() != null && this.usage == WandUsageType.BLOCK) {
             if (context.getPlayer().experienceTotal >= xpCost) {
-                LOGGER.debug("Player used wand on block: " + this.toString());
+                Aurumancy.LOGGER.debug("Player used wand on block: " + this.toString());
                 context.getPlayer().giveExperiencePoints(-xpCost);
                 this.blockUsage(context);
                 return ActionResultType.SUCCESS;
@@ -145,7 +141,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
         else {
             player.sendMessage(new StringTextComponent("Not enough mana to use this item!"));
         }
-        LOGGER.debug("Player stopped using " + this.toString() + " with " + timeLeft + " time left.");
+        Aurumancy.LOGGER.debug("Player stopped using " + this.toString() + " with " + timeLeft + " time left.");
     }
 
     @Override

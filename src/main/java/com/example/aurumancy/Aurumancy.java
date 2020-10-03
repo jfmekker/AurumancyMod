@@ -25,7 +25,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.stream.Collectors;
 
 @Mod(Aurumancy.MODID)
@@ -35,7 +34,7 @@ public class Aurumancy
 
     public static final ItemGroup ITEM_GROUP = new AurumancyItemGroup("Aurumancy");
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public Aurumancy() {
         // Register the setup method for modloading

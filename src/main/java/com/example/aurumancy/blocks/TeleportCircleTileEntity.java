@@ -1,18 +1,18 @@
 package com.example.aurumancy.blocks;
 
+import com.example.aurumancy.Aurumancy;
 import com.example.aurumancy.utils.ColorChecker;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.GlazedTerracottaBlock;
 import net.minecraft.item.DyeColor;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.LogManager;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TeleportCircleTileEntity extends TileEntity {
@@ -63,7 +63,7 @@ public class TeleportCircleTileEntity extends TileEntity {
             }
         }
         if (new_color != null) {
-            LogManager.getLogger().debug("Teleport circle setting new color to " + new_color.getName());
+            Aurumancy.LOGGER.debug("Teleport circle setting new color to " + new_color.getName());
             color = new_color;
         }
 

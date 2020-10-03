@@ -2,12 +2,12 @@ package com.example.aurumancy.data;
 
 import com.example.aurumancy.Aurumancy;
 import com.example.aurumancy.blocks.TeleportCircleBlock;
+
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.storage.WorldSavedData;
-import org.apache.logging.log4j.LogManager;
 
 public class AurumancySavedData extends WorldSavedData {
 
@@ -23,7 +23,7 @@ public class AurumancySavedData extends WorldSavedData {
 
     @Override
     public void read(CompoundNBT nbt) {
-        LogManager.getLogger().debug("Reading AurumancySavedData.");
+        Aurumancy.LOGGER.debug("Reading AurumancySavedData.");
 
         // Read teleport circle data
         CompoundNBT tc_data = nbt.getCompound("teleport_circles");
@@ -42,7 +42,7 @@ public class AurumancySavedData extends WorldSavedData {
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        LogManager.getLogger().debug("Writing AurumancySavedData.");
+        Aurumancy.LOGGER.debug("Writing AurumancySavedData.");
 
         // Write teleport circle data
         int size = TeleportCircleBlock.circles.size();

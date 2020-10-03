@@ -1,5 +1,7 @@
 package com.example.aurumancy.blocks;
 
+import com.example.aurumancy.Aurumancy;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -8,8 +10,6 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -28,12 +28,12 @@ public class ColorChangeBlock extends Block {
         super.onFallenUpon(worldIn, pos, entityIn, fallDistance);
 
         if (worldIn.isRemote) return;
-        LogManager.getLogger().debug("ColorChangeBlock landed at: " + pos.toString());
-        LogManager.getLogger().debug("IS_GREEN = " + worldIn.getBlockState(pos).get(IS_GREEN));
+        Aurumancy.LOGGER.debug("ColorChangeBlock landed at: " + pos.toString());
+        Aurumancy.LOGGER.debug("IS_GREEN = " + worldIn.getBlockState(pos).get(IS_GREEN));
 
         if (fallDistance > 0.75) {
             worldIn.setBlockState(pos, worldIn.getBlockState(pos).with(IS_GREEN, !worldIn.getBlockState(pos).get(IS_GREEN)));
-            LogManager.getLogger().debug("IS_GREEN = " + worldIn.getBlockState(pos).get(IS_GREEN));
+            Aurumancy.LOGGER.debug("IS_GREEN = " + worldIn.getBlockState(pos).get(IS_GREEN));
 
         }
     }

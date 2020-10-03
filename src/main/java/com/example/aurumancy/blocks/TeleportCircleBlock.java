@@ -1,6 +1,7 @@
 package com.example.aurumancy.blocks;
 
-import javafx.geometry.Pos;
+import com.example.aurumancy.Aurumancy;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -14,10 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class TeleportCircleBlock extends Block {
         TeleportCircleTileEntity here = (TeleportCircleTileEntity) world.getTileEntity(pos);
         if (here == null || !here.checkValidityAndColor()) return ActionResultType.FAIL;
         if (!isInCircleList(world, pos)) {
-            LogManager.getLogger().debug("Adding circle to list.");
+            Aurumancy.LOGGER.debug("Adding circle to list.");
             circles.add(new Tuple<>(world.dimension.getType(), pos));
         }
 
@@ -64,7 +63,7 @@ public class TeleportCircleBlock extends Block {
         for (int i = 0 ; i < circles.size() ; i += 1) {
             if (world.dimension.getType() != circles.get(i).getA()) continue;
             if (!(world.getTileEntity(circles.get(i).getB()) instanceof TeleportCircleTileEntity)) {
-                LogManager.getLogger().debug("Removing circle from list.");
+                Aurumancy.LOGGER.debug("Removing circle from list.");
                 circles.remove(i);
                 i -= 1;
             }
@@ -78,17 +77,17 @@ public class TeleportCircleBlock extends Block {
             if (here != tc_te) {
                 if (tc_te.checkValidityAndColor() && tc_te.color == here.color) {
                     matching.add(tc_te);
-                    LogManager.getLogger().debug("Matching " + tc_te.color + " circle found "
+                    Aurumancy.LOGGER.debug("Matching " + tc_te.color + " circle found "
                             + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
                 else if (tc_te.checkValidityAndColor()) {
-                    LogManager.getLogger().debug("Non-matching " + tc_te.color + " circle found "
+                    Aurumancy.LOGGER.debug("Non-matching " + tc_te.color + " circle found "
                             + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
                 else {
-                    LogManager.getLogger().debug("Invalid circle found "
+                    Aurumancy.LOGGER.debug("Invalid circle found "
                             + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
@@ -116,7 +115,7 @@ public class TeleportCircleBlock extends Block {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         if (!worldIn.isRemote) return;
-        LogManager.getLogger().debug("Adding circle to list.");
+        Aurumancy.LOGGER.debug("Adding circle to list.");
         circles.add(new Tuple<>(worldIn.dimension.getType(), pos));
     }
 

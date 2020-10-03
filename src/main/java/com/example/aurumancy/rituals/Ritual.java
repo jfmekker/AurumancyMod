@@ -1,10 +1,11 @@
 package com.example.aurumancy.rituals;
 
+import com.example.aurumancy.Aurumancy;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.LogManager;
 
 import javax.annotation.Nullable;
 
@@ -45,7 +46,7 @@ public class Ritual implements Comparable<Ritual> {
                 || blockSet.length != blockSet[0].length
                 || blockSet.length % 2 != 1
                 || blockSet[blockSet.length / 2][blockSet.length / 2] == null) {
-            LogManager.getLogger().debug("BuildValidRitual failed.");
+            Aurumancy.LOGGER.debug("BuildValidRitual failed.");
             return null;
         }
 

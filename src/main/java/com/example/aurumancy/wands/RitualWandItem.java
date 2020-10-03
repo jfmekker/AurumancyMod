@@ -34,7 +34,7 @@ public class RitualWandItem extends AbstractWandItem {
         PlayerEntity player = context.getPlayer();
 
         if (player == null) {
-            LOGGER.error("Player is null on RitualWandItem use event: " + context.toString());
+            Aurumancy.LOGGER.error("Player is null on RitualWandItem use event: " + context.toString());
             return;
         }
 
@@ -44,13 +44,13 @@ public class RitualWandItem extends AbstractWandItem {
         boolean ritualMatched = false;
         for (Ritual r : Rituals.RITUAL_SORTED_LIST) {
             if (r.validateRitualComponents(world,pos)) {
-                LOGGER.info("RitualWandItem successfully matched: " + r.toString());
+                Aurumancy.LOGGER.info("RitualWandItem successfully matched: " + r.toString());
                 r.doRitual(world, pos, player);
                 ritualMatched = true;
                 break;
             }
         }
-        if (!ritualMatched) LOGGER.info("RitualWandItem failed to match any rituals.");
+        if (!ritualMatched) Aurumancy.LOGGER.info("RitualWandItem failed to match any rituals.");
     }
 
 }
