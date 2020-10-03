@@ -1,12 +1,15 @@
 package com.example.aurumancy;
 
 import com.example.aurumancy.blocks.AurumancyBlocks;
+import com.example.aurumancy.data.AurumancySavedData;
 import com.example.aurumancy.networking.ModPacketHandler;
 import com.example.aurumancy.rituals.Rituals;
 import com.example.aurumancy.wands.Wands;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,6 +20,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import org.apache.logging.log4j.LogManager;
@@ -85,6 +89,21 @@ public class Aurumancy
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
         LOGGER.info("HELLO from server starting");
+
+        ServerWorld w = event.getServer().getWorld(DimensionType.OVERWORLD);
+        AurumancySavedData t = w.getSavedData().getOrCreate(
+                AurumancySavedData::new, AurumancySavedData.DATA_NAME);
+    }
+
+    @SubscribeEvent
+    public void onServerEnding(FMLServerStoppingEvent event) {
+        // do something when the server ends
+        LOGGER.info("HELLO from server ending");
+
+        ServerWorld w = event.getServer().getWorld(DimensionType.OVERWORLD);
+        AurumancySavedData t = new AurumancySavedData();
+        w.getSavedData().set(t);
+        t.markDirty();
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
