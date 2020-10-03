@@ -1,4 +1,4 @@
-package com.example.aurumancy.wands;
+package com.jacobmekker.aurumancy.wands;
 
 /**
  * How a wand is used: charging, instant, or on a block.

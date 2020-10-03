@@ -1,6 +1,6 @@
-package com.example.aurumancy.utils;
+package com.jacobmekker.aurumancy.utils;
 
-import com.example.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.Aurumancy;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.DyeColor;

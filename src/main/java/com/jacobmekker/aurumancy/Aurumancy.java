@@ -1,10 +1,10 @@
-package com.example.aurumancy;
+package com.jacobmekker.aurumancy;
 
-import com.example.aurumancy.blocks.AurumancyBlocks;
-import com.example.aurumancy.data.AurumancySavedData;
-import com.example.aurumancy.networking.ModPacketHandler;
-import com.example.aurumancy.rituals.Rituals;
-import com.example.aurumancy.wands.Wands;
+import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
+import com.jacobmekker.aurumancy.data.AurumancySavedData;
+import com.jacobmekker.aurumancy.networking.ModPacketHandler;
+import com.jacobmekker.aurumancy.rituals.Rituals;
+import com.jacobmekker.aurumancy.wands.Wands;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;

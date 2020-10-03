@@ -1,4 +1,4 @@
-package com.example.aurumancy.networking;
+package com.jacobmekker.aurumancy.networking;
 
 import net.minecraft.network.PacketBuffer;
 

@@ -1,7 +1,7 @@
-package com.example.aurumancy.data;
+package com.jacobmekker.aurumancy.data;
 
-import com.example.aurumancy.Aurumancy;
-import com.example.aurumancy.blocks.TeleportCircleBlock;
+import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.blocks.TeleportCircleBlock;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Tuple;

@@ -1,8 +1,8 @@
-package com.example.aurumancy.wands;
+package com.jacobmekker.aurumancy.wands;
 
-import com.example.aurumancy.Aurumancy;
-import com.example.aurumancy.networking.ModPacketHandler;
-import com.example.aurumancy.networking.messages.SummonLightningMessage;
+import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.networking.ModPacketHandler;
+import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;

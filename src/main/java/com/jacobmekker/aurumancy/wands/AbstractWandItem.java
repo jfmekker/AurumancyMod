@@ -1,6 +1,6 @@
-package com.example.aurumancy.wands;
+package com.jacobmekker.aurumancy.wands;
 
-import com.example.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.Aurumancy;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

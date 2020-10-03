@@ -1,7 +1,7 @@
-package com.example.aurumancy.networking;
+package com.jacobmekker.aurumancy.networking;
 
-import com.example.aurumancy.Aurumancy;
-import com.example.aurumancy.networking.messages.SummonLightningMessage;
+import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;

@@ -1,4 +1,4 @@
-package com.example.aurumancy.blocks;
+package com.jacobmekker.aurumancy.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

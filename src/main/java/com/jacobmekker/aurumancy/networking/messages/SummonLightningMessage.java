@@ -1,7 +1,7 @@
-package com.example.aurumancy.networking.messages;
+package com.jacobmekker.aurumancy.networking.messages;
 
-import com.example.aurumancy.Aurumancy;
-import com.example.aurumancy.networking.ModMessage;
+import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.networking.ModMessage;
 
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;

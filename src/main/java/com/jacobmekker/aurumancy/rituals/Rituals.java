@@ -1,7 +1,7 @@
-package com.example.aurumancy.rituals;
+package com.jacobmekker.aurumancy.rituals;
 
-import com.example.aurumancy.Aurumancy;
-import com.example.aurumancy.wands.Wands;
+import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.wands.Wands;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;

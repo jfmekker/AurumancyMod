@@ -1,8 +1,8 @@
-package com.example.aurumancy.wands;
+package com.jacobmekker.aurumancy.wands;
 
-import com.example.aurumancy.Aurumancy;
-import com.example.aurumancy.rituals.Ritual;
-import com.example.aurumancy.rituals.Rituals;
+import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.rituals.Ritual;
+import com.jacobmekker.aurumancy.rituals.Rituals;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;

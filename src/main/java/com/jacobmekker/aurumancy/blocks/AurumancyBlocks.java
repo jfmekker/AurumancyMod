@@ -1,6 +1,6 @@
-package com.example.aurumancy.blocks;
+package com.jacobmekker.aurumancy.blocks;
 
-import com.example.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.Aurumancy;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

@@ -1,4 +1,4 @@
-package com.example.aurumancy.rituals;
+package com.jacobmekker.aurumancy.rituals;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;

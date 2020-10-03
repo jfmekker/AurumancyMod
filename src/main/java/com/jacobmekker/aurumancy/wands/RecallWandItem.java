@@ -1,4 +1,4 @@
-package com.example.aurumancy.wands;
+package com.jacobmekker.aurumancy.wands;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package com.example.aurumancy.blocks;
+package com.jacobmekker.aurumancy.blocks;
 
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
