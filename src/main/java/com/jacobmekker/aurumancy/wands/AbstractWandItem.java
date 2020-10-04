@@ -2,14 +2,18 @@ package com.jacobmekker.aurumancy.wands;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.function.Predicate;
@@ -25,11 +29,17 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      * @param cost Cost to use the wand in xp. Can be positive, zero, or negative.
      * @param use How is the wand used? On a block, charged, or instant?
      */
-    public AbstractWandItem(Properties properties, int cost, WandUsageType use) {
-        super(properties.maxStackSize(1));
+    public AbstractWandItem(Properties properties, int cost, WandUsageType use, int cooldown) {
+        super(properties.group(Aurumancy.ITEM_GROUP).maxStackSize(1).maxDamage(cooldown));
         this.xpCost = cost;
         this.usage = use;
+        this.cooldownTime = cooldown;
     }
+
+    /**
+     * Cool-down time of the wand in ticks
+     */
+    protected int cooldownTime;
 
     /**
      * Cost to use the wand in xp. Can be positive, zero, or negative.
@@ -72,19 +82,27 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      */
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        // If we have the mana
+        // Get the item stack
+        ItemStack stack = player.getHeldItem(hand);
+
+        // Do we have the mana?
         if (player.experienceTotal >= xpCost) {
-            // Start charging or do effect
-            if (this.usage == WandUsageType.CHARGED) {
-                Aurumancy.LOGGER.debug("Player used wand charged action: " + this.toString());
-                player.setActiveHand(hand);
-                return ActionResult.resultSuccess(player.getHeldItem(hand));
-            }
-            else if (this.usage == WandUsageType.INSTANT) {
-                Aurumancy.LOGGER.debug("Player used wand right-click action: " + this.toString());
-                player.giveExperiencePoints(-xpCost);
-                this.instantUsage(world, player, hand);
-                return ActionResult.resultSuccess(player.getHeldItem(hand));
+            // Is cooldown done?
+            if (!stack.isDamaged()) {
+                // Start charging or do effect
+                if (this.usage == WandUsageType.CHARGED) {
+                    Aurumancy.LOGGER.debug("Player using wand charged action: " + this.toString());
+                    // Deduct mana and start cooldown when done
+                    player.setActiveHand(hand);
+                    return ActionResult.resultSuccess(stack);
+                }
+                else if (this.usage == WandUsageType.INSTANT) {
+                    Aurumancy.LOGGER.debug("Player used wand right-click action: " + this.toString());
+                    stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
+                    player.giveExperiencePoints(-xpCost);
+                    this.instantUsage(world, player, hand);
+                    return ActionResult.resultSuccess(stack);
+                }
             }
         }
         else {
@@ -101,17 +119,25 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      */
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
-        // Deduct mana and do the effect if we have enough and this matches our usage
+        // Get player and item stack
+        PlayerEntity player = context.getPlayer();
+        ItemStack stack = context.getItem();
 
-        if (context.getPlayer() != null && this.usage == WandUsageType.BLOCK) {
-            if (context.getPlayer().experienceTotal >= xpCost) {
-                Aurumancy.LOGGER.debug("Player used wand on block: " + this.toString());
-                context.getPlayer().giveExperiencePoints(-xpCost);
-                this.blockUsage(context);
-                return ActionResultType.SUCCESS;
+        // Does this match our usage?
+        if (player != null && this.usage == WandUsageType.BLOCK) {
+            // Do we have the mana?
+            if (player.experienceTotal >= xpCost) {
+                // Is cooldown finished?
+                if (!stack.isDamaged()) {
+                    Aurumancy.LOGGER.debug("Player used wand on block: " + this.toString());
+                    stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
+                    player.giveExperiencePoints(-xpCost);
+                    this.blockUsage(context);
+                    return ActionResultType.SUCCESS;
+                }
             }
             else {
-                context.getPlayer().sendMessage(new StringTextComponent("Not enough mana to use this item!"));
+                player.sendMessage(new StringTextComponent("Not enough mana to use this item!"));
             }
         }
 
@@ -134,6 +160,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
         // Deduct mana and do the effect
         if (player.experienceTotal >= xpCost) {
             if (timeLeft <= 71980) { // TODO do time calculation properly
+                stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
                 player.giveExperiencePoints(-xpCost);
                 this.chargedUsage(stack, world, player);
             }
@@ -152,4 +179,10 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
 
     @Override
     public int getUseDuration(ItemStack stack) { return 72000; /* ticks (20Hz) */ }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+        if (stack.isDamaged()) stack.setDamage(stack.getDamage() - 1);
+    }
 }

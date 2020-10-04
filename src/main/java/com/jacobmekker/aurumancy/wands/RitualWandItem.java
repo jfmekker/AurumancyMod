@@ -19,7 +19,7 @@ public class RitualWandItem extends AbstractWandItem {
      * @param properties Item properties object
      */
     public RitualWandItem(Properties properties) {
-        super(properties, 0, WandUsageType.BLOCK);
+        super(properties, 0, WandUsageType.BLOCK, 20);
     }
 
     /**

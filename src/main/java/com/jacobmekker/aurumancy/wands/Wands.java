@@ -24,15 +24,15 @@ public class Wands {
 
     public static final RegistryObject<Item> NULL_WAND =
             WAND_ITEMS.register("null_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 0, WandUsageType.CHARGED) { });
+                    new AbstractWandItem(new Item.Properties(), 0, WandUsageType.CHARGED, 20) { });
 
     public static final RegistryObject<Item> RITUAL_WAND =
             WAND_ITEMS.register("ritual_wand", () ->
-                    new RitualWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP)));
+                    new RitualWandItem(new Item.Properties()));
 
     public static final RegistryObject<Item> JUMP_WAND =
             WAND_ITEMS.register("jump_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 1, WandUsageType.INSTANT) {
+                    new AbstractWandItem(new Item.Properties(), 1, WandUsageType.INSTANT, 5) {
                         @Override
                         protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             super.instantUsage(world, player, hand);
@@ -52,7 +52,7 @@ public class Wands {
 
     public static final RegistryObject<Item> ARROW_WAND =
             WAND_ITEMS.register("arrow_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 2, WandUsageType.CHARGED) {
+                    new AbstractWandItem(new Item.Properties(), 2, WandUsageType.CHARGED, 10) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -73,7 +73,7 @@ public class Wands {
 
     public static final RegistryObject<Item> STORM_WAND =
             WAND_ITEMS.register("storm_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 5, WandUsageType.INSTANT) {
+                    new AbstractWandItem(new Item.Properties(), 5, WandUsageType.INSTANT, 15) {
                         @Override
                         protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             // Only do this on client side
@@ -109,7 +109,7 @@ public class Wands {
 
     public static final RegistryObject<Item> FIREBALL_WAND =
             WAND_ITEMS.register("fireball_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 9, WandUsageType.CHARGED) {
+                    new AbstractWandItem(new Item.Properties(), 9, WandUsageType.CHARGED, 100) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -129,7 +129,7 @@ public class Wands {
 
     public static final RegistryObject<Item> TELEPORT_WAND =
             WAND_ITEMS.register("teleport_wand", () ->
-                    new AbstractWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP), 12, WandUsageType.CHARGED) {
+                    new AbstractWandItem(new Item.Properties(), 12, WandUsageType.CHARGED, 50) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -157,7 +157,6 @@ public class Wands {
 
     public static final RegistryObject<Item> RECALL_WAND =
             WAND_ITEMS.register("recall_wand", () ->
-                    new RecallWandItem(new Item.Properties().group(Aurumancy.ITEM_GROUP),
-                            15, WandUsageType.INSTANT));
+                    new RecallWandItem(new Item.Properties(), 15, WandUsageType.INSTANT, 200));
 
 }
