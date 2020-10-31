@@ -4,13 +4,18 @@ import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
 import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
 
+import com.jacobmekker.aurumancy.rituals.CirclePower;
+import com.jacobmekker.aurumancy.rituals.RitualCircle;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,7 +29,28 @@ public class Wands {
 
     public static final RegistryObject<Item> NULL_WAND =
             WAND_ITEMS.register("null_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 0, WandUsageType.CHARGED, 20) { });
+                    new AbstractWandItem(new Item.Properties(), 0, WandUsageType.BLOCK, 20) {
+                        @Override
+                        protected void blockUsage(ItemUseContext context) {
+                            super.blockUsage(context);
+
+                            World world = context.getWorld();
+                            BlockPos pos = context.getPos();
+                            PlayerEntity player = context.getPlayer();
+
+                            if (world.isRemote()) return;
+
+                            if (world.getBlockState(pos).getBlock() == Blocks.GOLD_BLOCK) {
+                                CirclePower power = RitualCircle.GetCirclePower(world, pos);
+                                if (power != null && player != null) {
+                                    player.sendMessage(new StringTextComponent( power.toString() ));
+                                }
+                                else if (player != null) {
+                                    player.sendMessage(new StringTextComponent( "Not a circle @" + pos ));
+                                }
+                            }
+                        }
+                    });
 
     public static final RegistryObject<Item> RITUAL_WAND =
             WAND_ITEMS.register("ritual_wand", () ->
