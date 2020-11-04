@@ -21,6 +21,10 @@ public class CirclePower {
                 " ep=" + ep;
     }
 
+    public int total() {
+        return op + np + ep;
+    }
+
     public void add(CirclePower other) {
         if (other != null) {
             op += other.op;

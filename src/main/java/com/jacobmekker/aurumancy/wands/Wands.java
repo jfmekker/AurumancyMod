@@ -29,28 +29,7 @@ public class Wands {
 
     public static final RegistryObject<Item> NULL_WAND =
             WAND_ITEMS.register("null_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 0, WandUsageType.BLOCK, 20) {
-                        @Override
-                        protected void blockUsage(ItemUseContext context) {
-                            super.blockUsage(context);
-
-                            World world = context.getWorld();
-                            BlockPos pos = context.getPos();
-                            PlayerEntity player = context.getPlayer();
-
-                            if (world.isRemote()) return;
-
-                            if (world.getBlockState(pos).getBlock() == Blocks.GOLD_BLOCK) {
-                                CirclePower power = RitualCircle.GetCirclePower(world, pos);
-                                if (power != null && player != null) {
-                                    player.sendMessage(new StringTextComponent( power.toString() ));
-                                }
-                                else if (player != null) {
-                                    player.sendMessage(new StringTextComponent( "Not a circle @" + pos ));
-                                }
-                            }
-                        }
-                    });
+                    new AbstractWandItem(new Item.Properties(), 0, WandUsageType.BLOCK, 20) { });
 
     public static final RegistryObject<Item> RITUAL_WAND =
             WAND_ITEMS.register("ritual_wand", () ->

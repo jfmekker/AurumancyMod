@@ -47,4 +47,11 @@ public class AurumancyBlocks {
                     () -> TileEntityType.Builder.create(
                             TeleportCircleTileEntity::new, TELEPORT_CIRCLE.get()
                     ).build(null));
+
+    public static final RegistryObject<Block> RITUAL_CIRCLE =
+            BLOCKS.register("ritual_circle",
+                    () -> new RitualCircleBlock(Block.Properties.create(Material.ROCK)));
+    public static final RegistryObject<Item> RITUAL_CIRCLE_ITEM =
+            BLOCK_ITEMS.register("ritual_circle",
+                    () -> new BlockItem(RITUAL_CIRCLE.get(), new Item.Properties().group(Aurumancy.ITEM_GROUP)));
 }

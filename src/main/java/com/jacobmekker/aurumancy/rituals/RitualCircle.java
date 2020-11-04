@@ -17,7 +17,7 @@ public class RitualCircle {
         power.add(GetCircleOverworldPower(world, center));
         power.add(GetCircleNetherPower(world, center.add(0,-1,0)));
         power.add(GetCircleEndPower(world, center.add(0,-2,0)));
-        return (power.op == 0 && power.np == 0 && power.ep == 0) ? null : power;
+        return (power.total() == 0) ? null : power;
     }
 
     private static @Nullable CirclePower GetPillarOverworldPower(World world, BlockPos bottom) {
