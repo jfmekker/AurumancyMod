@@ -1,7 +1,10 @@
 package com.jacobmekker.aurumancy.blocks;
 
+import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.rituals.CirclePower;
+import com.jacobmekker.aurumancy.rituals.Ritual;
 import com.jacobmekker.aurumancy.rituals.RitualCircle;
+import com.jacobmekker.aurumancy.rituals.Rituals;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,12 +23,19 @@ public class RitualCircleBlock extends Block {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (!world.isRemote) return ActionResultType.PASS;
+        if (world.isRemote) return ActionResultType.PASS;
 
         CirclePower power = RitualCircle.GetCirclePower(world, pos);
-        if (power == null || (power.total() == 0)) return ActionResultType.PASS;
 
         player.sendMessage(new StringTextComponent("Ritual circle power: " + power.toString()));
+
+        for (Ritual r : Rituals.RITUAL_LIST) {
+            if (r != null && r.doRitual(world, pos, player, power)) {
+                Aurumancy.LOGGER.debug("Completed ritual: " + r.toString());
+                return ActionResultType.SUCCESS;
+            }
+        }
+        Aurumancy.LOGGER.debug("Failed to match any rituals.");
 
         return super.onBlockActivated(state, world, pos, player, hand, hit);
     }

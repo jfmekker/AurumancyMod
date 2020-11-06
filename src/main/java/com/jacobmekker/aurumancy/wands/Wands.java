@@ -31,10 +31,6 @@ public class Wands {
             WAND_ITEMS.register("null_wand", () ->
                     new AbstractWandItem(new Item.Properties(), 0, WandUsageType.BLOCK, 20) { });
 
-    public static final RegistryObject<Item> RITUAL_WAND =
-            WAND_ITEMS.register("ritual_wand", () ->
-                    new RitualWandItem(new Item.Properties()));
-
     public static final RegistryObject<Item> JUMP_WAND =
             WAND_ITEMS.register("jump_wand", () ->
                     new AbstractWandItem(new Item.Properties(), 1, WandUsageType.INSTANT, 5) {

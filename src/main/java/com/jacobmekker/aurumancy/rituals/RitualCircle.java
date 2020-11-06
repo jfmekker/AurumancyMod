@@ -23,12 +23,12 @@ public class RitualCircle {
     private static final int NETHER_CIRCLE_PILLAR_HEIGHT = 4;
     private static final int END_CIRCLE_PILLAR_HEIGHT = 6;
 
-    public static @Nullable CirclePower GetCirclePower(World world, BlockPos center) {
+    public static CirclePower GetCirclePower(World world, BlockPos center) {
         CirclePower power = new CirclePower();
         power.add(GetCircleOverworldPower(world, center.add(0,-1,0)));
         power.add(GetCircleNetherPower(world, center.add(0,-2,0)));
         power.add(GetCircleEndPower(world, center.add(0,-3,0)));
-        return (power.total() == 0) ? null : power;
+        return power;
     }
 
     private static @Nullable CirclePower GetPillarOverworldPower(World world, BlockPos bottom) {

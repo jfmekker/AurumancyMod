@@ -60,8 +60,6 @@ public class Aurumancy
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
 
-        Rituals.initSortedRitualList();
-
         ModPacketHandler.registerMessages();
     }
 

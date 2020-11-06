@@ -38,4 +38,8 @@ public class CirclePower {
         this.np += np;
         this.ep += ep;
     }
+
+    public boolean meetsOrExceeds(CirclePower other) {
+        return this.op >= other.op && this.np >= other.np && this.ep >= other.ep;
+    }
 }
