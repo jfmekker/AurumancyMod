@@ -1,7 +1,7 @@
 {
   "variants": {
     "" : {
-        "model": "aurumancy:block/teleport_circle"
+        "model": "aurumancy:block/ritual_circle"
     }
   }
 }
