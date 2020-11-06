@@ -1,6 +1,5 @@
 package com.jacobmekker.aurumancy.rituals;
 
-import com.jacobmekker.aurumancy.Aurumancy;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FenceBlock;
@@ -173,13 +172,12 @@ public class RitualCircle {
     }
 
     private static @Nullable CirclePower GetPillarEndPower(World world, BlockPos bottom) {
-        int height = 6;
         CirclePower pillar = new CirclePower();
 
         // Check pillar material
         int i = 1;
         Block material = null;
-        while (i <= height) {
+        while (i <= END_CIRCLE_PILLAR_HEIGHT) {
             Block block = world.getBlockState(bottom.add(0,i,0)).getBlock();
             material = material == null ? block : material;
             if (material != block) return null;
