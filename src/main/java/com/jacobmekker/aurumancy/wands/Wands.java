@@ -4,18 +4,13 @@ import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
 import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
 
-import com.jacobmekker.aurumancy.rituals.CirclePower;
-import com.jacobmekker.aurumancy.rituals.RitualCircle;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

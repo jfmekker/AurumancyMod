@@ -5,6 +5,7 @@ import com.jacobmekker.aurumancy.rituals.CirclePower;
 import com.jacobmekker.aurumancy.rituals.Ritual;
 import com.jacobmekker.aurumancy.rituals.RitualCircle;
 import com.jacobmekker.aurumancy.rituals.Rituals;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

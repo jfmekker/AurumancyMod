@@ -3,7 +3,6 @@ package com.jacobmekker.aurumancy;
 import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
 import com.jacobmekker.aurumancy.data.AurumancySavedData;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
-import com.jacobmekker.aurumancy.rituals.Rituals;
 import com.jacobmekker.aurumancy.wands.Wands;
 
 import net.minecraft.block.Block;

@@ -1,9 +1,6 @@
 package com.jacobmekker.aurumancy.wands;
 
-import com.jacobmekker.aurumancy.Aurumancy;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
