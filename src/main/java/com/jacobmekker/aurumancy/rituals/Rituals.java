@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -15,41 +16,20 @@ import java.util.List;
 
 public class Rituals {
     public static final Ritual GOLD_ABSORB =
-            new Ritual(-81, null, Arrays.asList(Items.GOLD_BLOCK), new CirclePower(1,0,0));
-
-    public static final Ritual NETHER_TELEPORT = null;
-            /*Ritual.BuildValidRitual(24,
-                    new RitualAction() {
-                        @Override
-                        public void doAction(World world, BlockPos pos, PlayerEntity player) {
-                            if (world.isRemote) return;
-                            Thread t = new Thread(() -> {
-                                world.setBlockState(pos, NETHER_PORTAL.getDefaultState());
-                                world.setBlockState(pos.add(0,1,0), NETHER_PORTAL.getDefaultState());
-                                try { this.wait(5000); }
-                                catch (Exception e) { Aurumancy.LOGGER.error(e.getMessage()); }
-                                if (world.getBlockState(pos).getBlock().equals(NETHER_PORTAL)) {
-                                    world.destroyBlock(pos, false);
-                                    world.destroyBlock(pos.add(0,1,0), false);
-                                }
-                            });
-                            t.start();
-                        }
-                    },
-                    Arrays.asList(
-                            new Component(NETHERRACK, new Vec3i(0,0,0)),
-                            new Component(SAND, new Vec3i(1,0,1)),
-                            new Component(SAND, new Vec3i(1,0,-1)),
-                            new Component(SAND, new Vec3i(-1,0,1)),
-                            new Component(SAND, new Vec3i(-1,0,-1))
-                    ));*/
+            new Ritual(-81,
+                    null,
+                    Arrays.asList(Items.GOLD_BLOCK),
+                    new CirclePower(1,0,0)
+            );
 
     public static final Ritual JUMP_WAND_CREATE =
             new Ritual(100,
                     new RitualAction() {
                         @Override
                         public void doAction(World world, BlockPos pos, PlayerEntity player) {
-                            world.addEntity(new ItemEntity(world, pos.getX(), pos.getY() + 1, pos.getZ(),
+                            Vec3d spawn = new Vec3d(pos.getX(),pos.getY(),pos.getZ());
+                            spawn = spawn.add(0.5,1.25,0.5);
+                            world.addEntity(new ItemEntity(world, spawn.x, spawn.y, spawn.z,
                                     new ItemStack(Wands.JUMP_WAND.get())));
                         }
                     },
@@ -59,23 +39,49 @@ public class Rituals {
                             Items.SLIME_BALL
                             ),
                     new CirclePower(1,0,0)
-                    );
+            );
 
-    public static final Ritual FIREBALL_WAND_CREATE = null;
-            /*Ritual.BuildValidRitual(new Block[][]{
-                            {LAPIS_BLOCK, TNT,        null,       TNT,        LAPIS_BLOCK},
-                            {TNT,         null,       GOLD_BLOCK, null,       TNT},
-                            {null,        GOLD_BLOCK, GLOWSTONE,  GOLD_BLOCK, null},
-                            {TNT,         null,       GOLD_BLOCK, null,       TNT},
-                            {LAPIS_BLOCK, TNT,        null,       TNT,        LAPIS_BLOCK}},
-                    405,
+    public static final Ritual FIREBALL_WAND_CREATE =
+            new Ritual(405,
                     new RitualAction() {
                         @Override
                         public void doAction(World world, BlockPos pos, PlayerEntity player) {
-                            world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
+                            Vec3d spawn = new Vec3d(pos.getX(),pos.getY(),pos.getZ());
+                            spawn = spawn.add(0.5,1.25,0.5);
+                            world.addEntity(new ItemEntity(world, spawn.x, spawn.y, spawn.z,
                                     new ItemStack(Wands.FIREBALL_WAND.get())));
                         }
-                    });*/
+                    },
+                    Arrays.asList(
+                            Items.TNT,
+                            Items.MAGMA_CREAM,
+                            Items.MAGMA_CREAM,
+                            Items.MAGMA_CREAM,
+                            Items.BLAZE_ROD
+                    ),
+                    new CirclePower(45, 25, 0)
+            );
+
+    public static final Ritual ARROW_WAND_CREATE =
+            new Ritual(56,
+                    new RitualAction() {
+                        @Override
+                        public void doAction(World world, BlockPos pos, PlayerEntity player) {
+                            Vec3d spawn = new Vec3d(pos.getX(),pos.getY(),pos.getZ());
+                            spawn = spawn.add(0.5,1.25,0.5);
+                            world.addEntity(new ItemEntity(world, spawn.x, spawn.y, spawn.z,
+                                    new ItemStack(Wands.ARROW_WAND.get())));
+                        }
+                    },
+                    Arrays.asList(
+                            Items.ARROW,
+                            Items.OAK_LOG,
+                            Items.STRING,
+                            Items.STRING,
+                            Items.STRING
+                    ),
+                    new CirclePower(25, 0, 0)
+            );
 
     public static final Ritual CHUNK_ORE_GATHER = null;
             /*Ritual.BuildValidRitual(new Block[][]{
@@ -130,7 +136,7 @@ public class Rituals {
      * List of all rituals to check against.
      */
     public static final List<Ritual> RITUAL_LIST = Arrays.asList(
-            GOLD_ABSORB, NETHER_TELEPORT, JUMP_WAND_CREATE, FIREBALL_WAND_CREATE, CHUNK_ORE_GATHER
+            GOLD_ABSORB, JUMP_WAND_CREATE, FIREBALL_WAND_CREATE, ARROW_WAND_CREATE
     );
 
 }

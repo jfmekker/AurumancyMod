@@ -65,8 +65,9 @@ public class Wands {
                                 float velocity = (rand.nextFloat() * 0.75f) + 1.25f;
                                 ArrowEntity arrow = new ArrowEntity(world,eyePos.x, eyePos.y, eyePos.z);
                                 arrow.setIsCritical(true);
+                                arrow.setDamage(6);
                                 arrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0f, velocity, 10.0f);
-                                arrow.tick();
+                                arrow.tick(); // tick once so we don't hit shooter
                                 world.addEntity(arrow);
                             }
                         }

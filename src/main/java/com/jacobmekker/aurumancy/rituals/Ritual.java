@@ -100,8 +100,8 @@ public class Ritual {
         List<ItemEntity> entities = world.getEntitiesWithinAABB(
                 EntityType.ITEM,
                 new AxisAlignedBB(
-                        center.add(-2,-1,-2),
-                        center.add(2,1,2)),
+                        center.add(-2,-2,-2),
+                        center.add(2,2,2)),
                 Objects::nonNull);
 
         List<ItemStack> stacks = new ArrayList<>();
