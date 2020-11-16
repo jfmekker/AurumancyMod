@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+
+    "pattern":
+    [
+        "SeS",
+        "eGe",
+        "SeS"
+    ],
+
+    "key":
+    {
+        "S":
+        {
+            "item": "minecraft:stone"
+        },
+        "e":
+        {
+            "item": "minecraft:emerald"
+        },
+        "G":
+        {
+            "item": "minecraft:glass"
+        }
+    },
+
+    "result":
+    {
+        "item": "aurumancy:ritual_circle",
+        "count": 1
+    }
+}
