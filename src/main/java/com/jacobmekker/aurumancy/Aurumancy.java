@@ -3,7 +3,7 @@ package com.jacobmekker.aurumancy;
 import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
 import com.jacobmekker.aurumancy.data.AurumancySavedData;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
-import com.jacobmekker.aurumancy.wands.Wands;
+import com.jacobmekker.aurumancy.items.AurumancyItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemGroup;
@@ -48,7 +48,7 @@ public class Aurumancy
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        Wands.WAND_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        AurumancyItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AurumancyBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AurumancyBlocks.BLOCK_ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         AurumancyBlocks.TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());

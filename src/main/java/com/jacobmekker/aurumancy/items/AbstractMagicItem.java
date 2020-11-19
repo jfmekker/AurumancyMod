@@ -1,4 +1,4 @@
-package com.jacobmekker.aurumancy.wands;
+package com.jacobmekker.aurumancy.items;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 
@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 /**
  * Base class for Aurumancy wands.
  */
-public abstract class AbstractWandItem extends ShootableItem implements IForgeRegistryEntry<Item> {
+public abstract class AbstractMagicItem extends ShootableItem implements IForgeRegistryEntry<Item> {
 
     /**
      * Construct an AbstractWand. Although abstract, will not actually need to override or define any methods.
@@ -26,7 +26,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
      * @param cost Cost to use the wand in xp. Can be positive, zero, or negative.
      * @param use How is the wand used? On a block, charged, or instant?
      */
-    public AbstractWandItem(Properties properties, int cost, WandUsageType use, int cooldown) {
+    public AbstractMagicItem(Properties properties, int cost, ItemUsageType use, int cooldown) {
         super(properties.group(Aurumancy.ITEM_GROUP).maxStackSize(1).maxDamage(cooldown));
         this.xpCost = cost;
         this.usage = use;
@@ -46,7 +46,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
     /**
      * How is the wand used? On a block, charged, or instant?
      */
-    protected WandUsageType usage;
+    protected ItemUsageType usage;
 
     /**
      * Action to do for an instant use (right-click).
@@ -87,13 +87,13 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
             // Is cooldown done?
             if (!stack.isDamaged()) {
                 // Start charging or do effect
-                if (this.usage == WandUsageType.CHARGED) {
+                if (this.usage == ItemUsageType.CHARGED) {
                     Aurumancy.LOGGER.debug("Player using wand charged action: " + this.toString());
                     // Deduct mana and start cooldown when done
                     player.setActiveHand(hand);
                     return ActionResult.resultSuccess(stack);
                 }
-                else if (this.usage == WandUsageType.INSTANT) {
+                else if (this.usage == ItemUsageType.INSTANT) {
                     Aurumancy.LOGGER.debug("Player used wand right-click action: " + this.toString());
                     stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
                     player.giveExperiencePoints(-xpCost);
@@ -121,7 +121,7 @@ public abstract class AbstractWandItem extends ShootableItem implements IForgeRe
         ItemStack stack = context.getItem();
 
         // Does this match our usage?
-        if (player != null && this.usage == WandUsageType.BLOCK) {
+        if (player != null && this.usage == ItemUsageType.BLOCK) {
             // Do we have the mana?
             if (player.experienceTotal >= xpCost) {
                 // Is cooldown finished?

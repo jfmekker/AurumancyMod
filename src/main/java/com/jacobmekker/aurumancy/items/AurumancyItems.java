@@ -1,4 +1,4 @@
-package com.jacobmekker.aurumancy.wands;
+package com.jacobmekker.aurumancy.items;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
@@ -18,17 +18,17 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Random;
 
-public class Wands {
+public class AurumancyItems {
 
-    public static final DeferredRegister<Item> WAND_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, Aurumancy.MODID);
+    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, Aurumancy.MODID);
 
     public static final RegistryObject<Item> NULL_WAND =
-            WAND_ITEMS.register("null_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 0, WandUsageType.BLOCK, 20) { });
+            ITEMS.register("null_wand", () ->
+                    new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 20) { });
 
     public static final RegistryObject<Item> JUMP_WAND =
-            WAND_ITEMS.register("jump_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 1, WandUsageType.INSTANT, 5) {
+            ITEMS.register("jump_wand", () ->
+                    new AbstractMagicItem(new Item.Properties(), 1, ItemUsageType.INSTANT, 5) {
                         @Override
                         protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             super.instantUsage(world, player, hand);
@@ -47,8 +47,8 @@ public class Wands {
                     });
 
     public static final RegistryObject<Item> ARROW_WAND =
-            WAND_ITEMS.register("arrow_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 2, WandUsageType.CHARGED, 10) {
+            ITEMS.register("arrow_wand", () ->
+                    new AbstractMagicItem(new Item.Properties(), 2, ItemUsageType.CHARGED, 10) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -69,8 +69,8 @@ public class Wands {
                     });
 
     public static final RegistryObject<Item> STORM_WAND =
-            WAND_ITEMS.register("storm_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 5, WandUsageType.INSTANT, 15) {
+            ITEMS.register("storm_wand", () ->
+                    new AbstractMagicItem(new Item.Properties(), 5, ItemUsageType.INSTANT, 15) {
                         @Override
                         protected void instantUsage(World world, PlayerEntity player, Hand hand) {
                             // Only do this on client side
@@ -105,8 +105,8 @@ public class Wands {
                     });
 
     public static final RegistryObject<Item> FIREBALL_WAND =
-            WAND_ITEMS.register("fireball_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 9, WandUsageType.CHARGED, 100) {
+            ITEMS.register("fireball_wand", () ->
+                    new AbstractMagicItem(new Item.Properties(), 9, ItemUsageType.CHARGED, 100) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -125,8 +125,8 @@ public class Wands {
                     });
 
     public static final RegistryObject<Item> TELEPORT_WAND =
-            WAND_ITEMS.register("teleport_wand", () ->
-                    new AbstractWandItem(new Item.Properties(), 12, WandUsageType.CHARGED, 50) {
+            ITEMS.register("teleport_wand", () ->
+                    new AbstractMagicItem(new Item.Properties(), 12, ItemUsageType.CHARGED, 50) {
                         @Override
                         protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
                             if (world.isRemote) return;
@@ -153,7 +153,7 @@ public class Wands {
                     });
 
     public static final RegistryObject<Item> RECALL_WAND =
-            WAND_ITEMS.register("recall_wand", () ->
-                    new RecallWandItem(new Item.Properties(), 15, WandUsageType.INSTANT, 200));
+            ITEMS.register("recall_wand", () ->
+                    new RecallWandItem(new Item.Properties(), 15, ItemUsageType.INSTANT, 200));
 
 }

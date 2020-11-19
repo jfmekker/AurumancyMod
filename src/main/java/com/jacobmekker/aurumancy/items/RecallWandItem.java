@@ -1,4 +1,4 @@
-package com.jacobmekker.aurumancy.wands;
+package com.jacobmekker.aurumancy.items;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.extensions.IForgeItem;
 
-public class RecallWandItem extends AbstractWandItem implements IForgeItem {
+public class RecallWandItem extends AbstractMagicItem implements IForgeItem {
     /**
      * Construct an AbstractWand. Although abstract, will not actually need to override or define any methods.
      *
@@ -16,7 +16,7 @@ public class RecallWandItem extends AbstractWandItem implements IForgeItem {
      * @param cost       Cost to use the wand in xp. Can be positive, zero, or negative.
      * @param use        How is the wand used? On a block, charged, or instant?
      */
-    public RecallWandItem(Properties properties, int cost, WandUsageType use, int cooldown) {
+    public RecallWandItem(Properties properties, int cost, ItemUsageType use, int cooldown) {
         super(properties, cost, use, cooldown);
     }
 

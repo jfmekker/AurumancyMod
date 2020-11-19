@@ -1,6 +1,7 @@
-package com.jacobmekker.aurumancy.blocks;
+package com.jacobmekker.aurumancy.blocks.tileentities;
 
 import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
 import com.jacobmekker.aurumancy.utils.ColorChecker;
 
 import net.minecraft.block.Block;

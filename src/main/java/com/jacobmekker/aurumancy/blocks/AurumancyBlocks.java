@@ -2,6 +2,8 @@ package com.jacobmekker.aurumancy.blocks;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 
+import com.jacobmekker.aurumancy.blocks.tileentities.StarlightCollectorTileEntity;
+import com.jacobmekker.aurumancy.blocks.tileentities.TeleportCircleTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
@@ -16,13 +18,6 @@ public class AurumancyBlocks {
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Aurumancy.MODID);
     public static final DeferredRegister<Item> BLOCK_ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, Aurumancy.MODID);
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, Aurumancy.MODID);
-
-    public static final RegistryObject<Block> COLOR_CHANGE_BLOCK =
-            BLOCKS.register("color_change_block",
-                    () -> new ColorChangeBlock(Block.Properties.create(Material.ROCK).jumpFactor(1f)));
-    public static final RegistryObject<Item> COLOR_CHANGE_BLOCK_ITEM =
-            BLOCK_ITEMS.register("color_change_block",
-                    () -> new BlockItem(COLOR_CHANGE_BLOCK.get(), new Item.Properties().group(Aurumancy.ITEM_GROUP)));
 
     public static final RegistryObject<Block> STARLIGHT_COLLECTOR =
             BLOCKS.register("starlight_collector",
