@@ -2,6 +2,7 @@ package com.jacobmekker.aurumancy.blocks;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 
+import com.jacobmekker.aurumancy.blocks.tileentities.ManaFertilizerTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.StarlightCollectorTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.TeleportCircleTileEntity;
 import net.minecraft.block.Block;
@@ -49,4 +50,16 @@ public class AurumancyBlocks {
     public static final RegistryObject<Item> RITUAL_CIRCLE_ITEM =
             BLOCK_ITEMS.register("ritual_circle",
                     () -> new BlockItem(RITUAL_CIRCLE.get(), new Item.Properties().group(Aurumancy.ITEM_GROUP)));
+
+    public static final RegistryObject<Block> MANA_FERTILIZER =
+            BLOCKS.register("mana_fertilizer",
+                    () -> new ManaFertilizerBlock(Block.Properties.create(Material.GLASS)));
+    public static final RegistryObject<Item> MANA_FERTILIZER_ITEM =
+            BLOCK_ITEMS.register("mana_fertilizer",
+                    () -> new BlockItem(MANA_FERTILIZER.get(), new Item.Properties().group(Aurumancy.ITEM_GROUP)));
+    public static final RegistryObject<TileEntityType<?>> MANA_FERTILIZER_TILE_ENTITY_TYPE =
+            TILE_ENTITY_TYPES.register("mana_fertilizer",
+                    () -> TileEntityType.Builder.create(
+                            ManaFertilizerTileEntity::new, MANA_FERTILIZER.get()
+                    ).build(null));
 }
