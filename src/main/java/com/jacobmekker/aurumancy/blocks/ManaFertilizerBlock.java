@@ -1,5 +1,6 @@
 package com.jacobmekker.aurumancy.blocks;
 
+import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.blocks.tileentities.ManaFertilizerTileEntity;
 import com.jacobmekker.aurumancy.data.BlockProperties;
 
@@ -44,17 +45,21 @@ public class ManaFertilizerBlock extends Block {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (world.isRemote) return ActionResultType.PASS;
+        if (world.isRemote)
+            return ActionResultType.SUCCESS;
 
         int current_mana = 0;
         if (state.has(BlockProperties.stored_mana)) current_mana = state.get(BlockProperties.stored_mana);
 
-        if (current_mana <= 81 - 9 && player.experienceTotal >= 9) {
+        current_mana += 9;
+        current_mana = Math.min(current_mana, 81);
+        world.setBlockState(pos, state.with(BlockProperties.stored_mana, current_mana));
+        /*if (current_mana <= 81 - 9 && player.experienceTotal >= 9) {
             player.experienceTotal -= 9;
             current_mana += 9;
 
             world.setBlockState(pos, state.with(BlockProperties.stored_mana, current_mana));
-        }
+        }*/
 
         player.sendMessage(new StringTextComponent("stored_mana=" + current_mana));
         return ActionResultType.SUCCESS;
