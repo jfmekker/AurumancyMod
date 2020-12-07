@@ -39,12 +39,11 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
         // every 1.5 seconds (while loaded)
         wait_time += 1;
         if (wait_time >= GROW_PERIOD) {
-            Aurumancy.LOGGER.debug("ManaFertilizer tick");
-
             BlockState self = world.getBlockState(pos);
             int mana = self.get(BlockProperties.stored_mana);
+            Aurumancy.LOGGER.trace("ManaFertilizer tick, stored_mana=" + mana);
+
             if (mana <= 0) {
-                Aurumancy.LOGGER.debug("ManaFertilizer out of mana");
                 wait_time = 0;
                 return;
             }
@@ -61,7 +60,7 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
                     if (!c.isMaxAge(crop)) {
                         c.grow(world, crop_pos, crop);
                         world.playEvent(2005, crop_pos, 0);
-                        Aurumancy.LOGGER.debug("ManaFertilizer grew @ " + crop_pos.toString());
+                        Aurumancy.LOGGER.trace("ManaFertilizer grew @ " + crop_pos.toString());
                         world.setBlockState(pos, self.with(BlockProperties.stored_mana, mana - 1));
                         break;
                     }
