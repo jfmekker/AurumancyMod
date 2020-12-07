@@ -32,11 +32,11 @@ public class RitualCircleBlock extends Block {
 
         for (Ritual r : Rituals.RITUAL_LIST) {
             if (r != null && r.doRitual(world, pos, player, power)) {
-                Aurumancy.LOGGER.debug("Completed ritual: " + r.toString());
+                Aurumancy.LOGGER.trace("Completed ritual: " + r.toString());
                 return ActionResultType.SUCCESS;
             }
         }
-        Aurumancy.LOGGER.debug("Failed to match any rituals.");
+        Aurumancy.LOGGER.trace("Failed to match any rituals.");
 
         return super.onBlockActivated(state, world, pos, player, hand, hit);
     }

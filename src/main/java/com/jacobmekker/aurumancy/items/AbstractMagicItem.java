@@ -54,7 +54,7 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
      * @param player Player triggering event.
      * @param hand Hand holding item.
      */
-    protected void instantUsage(World world, PlayerEntity player, Hand hand) { Aurumancy.LOGGER.debug("Wand using rightClickUsage."); }
+    protected void instantUsage(World world, PlayerEntity player, Hand hand) { Aurumancy.LOGGER.trace("Wand using rightClickUsage."); }
 
     /**
      * Action to do for a charged use (held right-click).
@@ -62,13 +62,13 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
      * @param world World event is in.
      * @param player Player triggering event.
      */
-    protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) { Aurumancy.LOGGER.debug("Wand using chargedUsage."); }
+    protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) { Aurumancy.LOGGER.trace("Wand using chargedUsage."); }
 
     /**
      * Action to do far a block use (right-click on a block).
      * @param context Context object of event. Contains block position, world, player, etc.
      */
-    protected void blockUsage(ItemUseContext context) { Aurumancy.LOGGER.debug("Wand using blockUsage."); }
+    protected void blockUsage(ItemUseContext context) { Aurumancy.LOGGER.trace("Wand using blockUsage."); }
 
     /**
      * Resolve Player right-clicking with a wand. Should not be overridden.
@@ -88,13 +88,13 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
             if (!stack.isDamaged()) {
                 // Start charging or do effect
                 if (this.usage == ItemUsageType.CHARGED) {
-                    Aurumancy.LOGGER.debug("Player using wand charged action: " + this.toString());
+                    Aurumancy.LOGGER.trace("Player using wand charged action: " + this.toString());
                     // Deduct mana and start cooldown when done
                     player.setActiveHand(hand);
                     return ActionResult.resultSuccess(stack);
                 }
                 else if (this.usage == ItemUsageType.INSTANT) {
-                    Aurumancy.LOGGER.debug("Player used wand right-click action: " + this.toString());
+                    Aurumancy.LOGGER.trace("Player used wand right-click action: " + this.toString());
                     stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
                     player.giveExperiencePoints(-xpCost);
                     this.instantUsage(world, player, hand);
@@ -126,7 +126,7 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
             if (player.experienceTotal >= xpCost) {
                 // Is cooldown finished?
                 if (!stack.isDamaged()) {
-                    Aurumancy.LOGGER.debug("Player used wand on block: " + this.toString());
+                    Aurumancy.LOGGER.trace("Player used wand on block: " + this.toString());
                     stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
                     player.giveExperiencePoints(-xpCost);
                     this.blockUsage(context);
@@ -165,7 +165,7 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
         else {
             player.sendMessage(new StringTextComponent("Not enough mana to use this item!"));
         }
-        Aurumancy.LOGGER.debug("Player stopped using " + this.toString() + " with " + timeLeft + " time left.");
+        Aurumancy.LOGGER.trace("Player stopped using " + this.toString() + " with " + timeLeft + " time left.");
     }
 
     @Override

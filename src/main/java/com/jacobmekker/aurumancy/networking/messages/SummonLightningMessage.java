@@ -42,16 +42,16 @@ public class SummonLightningMessage extends ModMessage {
         packet.writeVarInt(pos.getX());
         packet.writeVarInt(pos.getY());
         packet.writeVarInt(pos.getZ());
-        Aurumancy.LOGGER.debug("Encoding SummonLightningMessage.");
+        Aurumancy.LOGGER.trace("Encoding SummonLightningMessage.");
     }
 
     public void HandleNetworkContext(Supplier<NetworkEvent.Context> context) {
-        Aurumancy.LOGGER.debug("Queueing handle SummonLightningMessage.");
+        Aurumancy.LOGGER.trace("Queueing handle SummonLightningMessage.");
         context.get().enqueueWork(() -> {
-            Aurumancy.LOGGER.debug("Handling SummonLightningMessage.");
+            Aurumancy.LOGGER.trace("Handling SummonLightningMessage.");
             ServerPlayerEntity spe = context.get().getSender();
             if (spe != null && spe.world.isAreaLoaded(pos, 1)) {
-                Aurumancy.LOGGER.debug("SummonLightningMessage summoning lightning.");
+                Aurumancy.LOGGER.trace("SummonLightningMessage summoning lightning.");
                 LightningBoltEntity bolt = new LightningBoltEntity(spe.world,pos.getX(), pos.getY(), pos.getZ(), false);
                 bolt.setCaster(spe);
                 bolt.setPosition(pos.getX(),pos.getY(),pos.getZ());

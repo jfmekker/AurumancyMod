@@ -51,7 +51,6 @@ public class TeleportCircleBlock extends Block {
         TeleportCircleTileEntity here = (TeleportCircleTileEntity) world.getTileEntity(pos);
         if (here == null || !here.checkValidityAndColor()) return ActionResultType.FAIL;
         if (!isInCircleList(world, pos)) {
-            Aurumancy.LOGGER.debug("Adding circle to list.");
             circles.add(new Tuple<>(world.dimension.getType(), pos));
         }
 
@@ -64,7 +63,6 @@ public class TeleportCircleBlock extends Block {
         for (int i = 0 ; i < circles.size() ; i += 1) {
             if (world.dimension.getType() != circles.get(i).getA()) continue;
             if (!(world.getTileEntity(circles.get(i).getB()) instanceof TeleportCircleTileEntity)) {
-                Aurumancy.LOGGER.debug("Removing circle from list.");
                 circles.remove(i);
                 i -= 1;
             }
@@ -78,17 +76,17 @@ public class TeleportCircleBlock extends Block {
             if (here != tc_te) {
                 if (tc_te.checkValidityAndColor() && tc_te.color == here.color) {
                     matching.add(tc_te);
-                    Aurumancy.LOGGER.debug("Matching " + tc_te.color + " circle found "
+                    Aurumancy.LOGGER.trace("Matching " + tc_te.color + " circle found "
                             + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
                 else if (tc_te.checkValidityAndColor()) {
-                    Aurumancy.LOGGER.debug("Non-matching " + tc_te.color + " circle found "
+                    Aurumancy.LOGGER.trace("Non-matching " + tc_te.color + " circle found "
                             + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
                 else {
-                    Aurumancy.LOGGER.debug("Invalid circle found "
+                    Aurumancy.LOGGER.trace("Invalid circle found "
                             + here.getPos().manhattanDistance(tc_te.getPos())
                             + " blocks away.");
                 }
@@ -116,7 +114,6 @@ public class TeleportCircleBlock extends Block {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         if (!worldIn.isRemote) return;
-        Aurumancy.LOGGER.debug("Adding circle to list.");
         circles.add(new Tuple<>(worldIn.dimension.getType(), pos));
     }
 

@@ -64,7 +64,7 @@ public class TeleportCircleTileEntity extends TileEntity {
             }
         }
         if (new_color != null) {
-            Aurumancy.LOGGER.debug("Teleport circle setting new color to " + new_color.getName());
+            Aurumancy.LOGGER.trace("Teleport circle setting new color to " + new_color.getName());
             color = new_color;
         }
 

@@ -23,7 +23,7 @@ public class AurumancySavedData extends WorldSavedData {
 
     @Override
     public void read(CompoundNBT nbt) {
-        Aurumancy.LOGGER.debug("Reading AurumancySavedData.");
+        Aurumancy.LOGGER.info("Reading AurumancySavedData.");
 
         // Read teleport circle data
         CompoundNBT tc_data = nbt.getCompound("teleport_circles");
@@ -42,7 +42,7 @@ public class AurumancySavedData extends WorldSavedData {
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        Aurumancy.LOGGER.debug("Writing AurumancySavedData.");
+        Aurumancy.LOGGER.info("Writing AurumancySavedData.");
 
         // Write teleport circle data
         int size = TeleportCircleBlock.circles.size();
