@@ -2,14 +2,9 @@ package com.jacobmekker.aurumancy.blocks.tileentities;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
-import com.jacobmekker.aurumancy.data.BlockProperties;
+
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -17,12 +12,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.antlr.v4.runtime.atn.BlockStartState;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ManaFertilizerTileEntity extends TileEntity implements ITickableTileEntity {
 
-    public static int spawn_ticks = (int)(20 * 1.5); // every 1.5 seconds
+    public static int GROW_PERIOD = 20 * 5; // every 5 seconds
+    public static int MAX_RANGE = 5;
+    public static int MAX_TRIES = 5;
+
     public int wait_time = 0;
 
     @SubscribeEvent
@@ -40,31 +37,32 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
 
         // every 1.5 seconds (while loaded)
         wait_time += 1;
-        if (wait_time >= spawn_ticks) {
-            Aurumancy.LOGGER.debug("ManaFertilizer tick");
+        if (wait_time >= GROW_PERIOD) {
+            Aurumancy.LOGGER.trace("ManaFertilizer tick");
 
-            // grow something
-            // decrease mana in blockstate
+            // try a few times to find a grow-able block
+            int tries = 0;
+            while (tries < MAX_TRIES) {
+                int x = world.rand.nextInt(MAX_RANGE * 2 + 1) - MAX_RANGE;
+                int z = world.rand.nextInt(MAX_RANGE * 2 + 1) - MAX_RANGE;
 
-            BlockState a = world.getBlockState(pos);
-            for (int x=-5; x <= 5; x++) {
-                for (int z=-5; z<= 5; z++) {
-                    BlockPos crop_pos = pos.add(x,0,z);
-                    BlockState crop = world.getBlockState(crop_pos);
-                    if (crop.getBlock() instanceof CropsBlock) {
-                        CropsBlock c = (CropsBlock) crop.getBlock();
-                        //int mana = a.get(BlockProperties.stored_mana);
-                        if (!c.isMaxAge(crop)) {
-                            c.grow(world, crop_pos, crop);
-
-                            //world.setBlockState(pos,a.with(BlockProperties.stored_mana, mana)); // TODO decrease
-                            Aurumancy.LOGGER.debug("ManaFertilizer grew @ " + crop_pos.toString());
-                        }
+                BlockPos crop_pos = pos.add(x,0,z);
+                BlockState crop = world.getBlockState(crop_pos);
+                if (crop.getBlock() instanceof CropsBlock) {
+                    CropsBlock c = (CropsBlock) crop.getBlock();
+                    if (!c.isMaxAge(crop)) {
+                        c.grow(world, crop_pos, crop);
+                        world.playEvent(2005, crop_pos, 0);
+                        Aurumancy.LOGGER.debug("ManaFertilizer grew @ " + crop_pos.toString());
+                        break;
                     }
                 }
-            }
 
-            wait_time -= spawn_ticks;
+                tries += 1;
+            }
+            Aurumancy.LOGGER.trace("ManaFertilizer end loop");
+
+            wait_time = 0;
         }
     }
 }
