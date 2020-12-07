@@ -1,16 +1,20 @@
 package com.jacobmekker.aurumancy.items;
 
 import com.jacobmekker.aurumancy.Aurumancy;
+import com.jacobmekker.aurumancy.data.BlockProperties;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
 import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -153,5 +157,23 @@ public class AurumancyItems {
     public static final RegistryObject<Item> RECALL_WAND =
             ITEMS.register("recall_wand", () ->
                     new RecallWandItem(new Item.Properties(), 15, ItemUsageType.INSTANT, 200));
+
+    public static final RegistryObject<Item> MANA_METER =
+            ITEMS.register("mana_meter", () ->
+                    new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 20) {
+                        @Override
+                        protected void blockUsage(ItemUseContext context) {
+                            if (context.getWorld().isRemote) return;
+                            super.blockUsage(context);
+
+                            BlockState block = context.getWorld().getBlockState(context.getPos());
+                            Aurumancy.LOGGER.debug("mana_meter used on " + block.toString());
+                            if (block.has(BlockProperties.stored_mana) && context.getPlayer() != null) {
+                                int mana = block.get(BlockProperties.stored_mana);
+                                context.getPlayer().sendMessage(new StringTextComponent("Stored mana=" + mana));
+                                Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
+                            }
+                        }
+                    });
 
 }
