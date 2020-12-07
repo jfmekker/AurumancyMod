@@ -3,6 +3,7 @@ package com.jacobmekker.aurumancy.blocks;
 import com.jacobmekker.aurumancy.Aurumancy;
 
 import com.jacobmekker.aurumancy.blocks.tileentities.TeleportCircleTileEntity;
+import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -54,7 +55,7 @@ public class TeleportCircleBlock extends Block {
             circles.add(new Tuple<>(world.dimension.getType(), pos));
         }
 
-        if (player.experienceTotal < xp_cost) {
+        if (PlayerEntityHelper.GetActualExperienceTotal(player) < xp_cost) {
             player.sendMessage(new StringTextComponent("You don't have enough mana to use this."));
             return ActionResultType.PASS;
         }
@@ -100,7 +101,7 @@ public class TeleportCircleBlock extends Block {
                     dest.getPos().getY() + 1,
                     dest.getPos().getZ() + 0.5,
                     false);
-            player.experienceTotal -= xp_cost;
+            PlayerEntityHelper.AddActualExperienceTotal(player, -xp_cost);
         }
         else {
             player.sendMessage(new StringTextComponent(

@@ -5,6 +5,7 @@ import com.jacobmekker.aurumancy.data.BlockProperties;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
 import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
 
+import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -101,7 +102,7 @@ public class AurumancyItems {
                             }
                             else {
                                 // Refund the mana cost that was deducted on a miss
-                                player.giveExperiencePoints(xpCost);
+                                PlayerEntityHelper.AddActualExperienceTotal(player, xpCost);
                             }
                         }
                     });
@@ -163,14 +164,19 @@ public class AurumancyItems {
                     new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 20) {
                         @Override
                         protected void blockUsage(ItemUseContext context) {
-                            if (context.getWorld().isRemote) return;
                             super.blockUsage(context);
+                            if (context.getWorld().isRemote || context.getPlayer() == null) return;
 
                             BlockState block = context.getWorld().getBlockState(context.getPos());
                             Aurumancy.LOGGER.debug("mana_meter used on " + block.toString());
-                            if (block.has(BlockProperties.stored_mana) && context.getPlayer() != null) {
+                            if (block.has(BlockProperties.stored_mana)) {
                                 int mana = block.get(BlockProperties.stored_mana);
                                 context.getPlayer().sendMessage(new StringTextComponent("Stored mana=" + mana));
+                                Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
+                            }
+                            else {
+                                int mana = PlayerEntityHelper.GetActualExperienceTotal(context.getPlayer());
+                                context.getPlayer().sendMessage(new StringTextComponent("Your mana=" + mana));
                                 Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
                             }
                         }

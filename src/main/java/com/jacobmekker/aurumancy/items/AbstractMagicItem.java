@@ -2,6 +2,7 @@ package com.jacobmekker.aurumancy.items;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 
+import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -83,7 +84,7 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
         ItemStack stack = player.getHeldItem(hand);
 
         // Do we have the mana?
-        if (player.experienceTotal >= xpCost) {
+        if (PlayerEntityHelper.GetActualExperienceTotal(player) >= xpCost) {
             // Is cooldown done?
             if (!stack.isDamaged()) {
                 // Start charging or do effect
@@ -96,7 +97,7 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
                 else if (this.usage == ItemUsageType.INSTANT) {
                     Aurumancy.LOGGER.trace("Player used wand right-click action: " + this.toString());
                     stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
-                    player.giveExperiencePoints(-xpCost);
+                    PlayerEntityHelper.AddActualExperienceTotal(player, -xpCost);
                     this.instantUsage(world, player, hand);
                     return ActionResult.resultSuccess(stack);
                 }
@@ -123,12 +124,12 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
         // Does this match our usage?
         if (player != null && this.usage == ItemUsageType.BLOCK) {
             // Do we have the mana?
-            if (player.experienceTotal >= xpCost) {
+            if (PlayerEntityHelper.GetActualExperienceTotal(player) >= xpCost) {
                 // Is cooldown finished?
                 if (!stack.isDamaged()) {
                     Aurumancy.LOGGER.trace("Player used wand on block: " + this.toString());
                     stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
-                    player.giveExperiencePoints(-xpCost);
+                    PlayerEntityHelper.AddActualExperienceTotal(player, -xpCost);
                     this.blockUsage(context);
                     return ActionResultType.SUCCESS;
                 }
@@ -155,10 +156,10 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
         PlayerEntity player = (PlayerEntity)entityLiving;
 
         // Deduct mana and do the effect
-        if (player.experienceTotal >= xpCost) {
+        if (PlayerEntityHelper.GetActualExperienceTotal(player) >= xpCost) {
             if (timeLeft <= 71980) { // TODO do time calculation properly
                 stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
-                player.giveExperiencePoints(-xpCost);
+                PlayerEntityHelper.AddActualExperienceTotal(player, -xpCost);
                 this.chargedUsage(stack, world, player);
             }
         }

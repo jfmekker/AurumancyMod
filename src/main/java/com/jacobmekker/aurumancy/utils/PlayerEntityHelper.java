@@ -5,15 +5,20 @@ import net.minecraft.entity.player.PlayerEntity;
 public class PlayerEntityHelper {
 
     public static int GetActualExperienceTotal(PlayerEntity player) {
-        int levels_0_14 = Math.max(player.experienceLevel, 7);
-        int levels_15_29 = Math.min(Math.max(player.experienceLevel - 15, 15), 0);
-        int levels_30_ = Math.min(player.experienceLevel - 30, 0);
-        int current_level_xp = (int)(player.experience * player.xpBarCap());
+        int xp = (int)(player.experience * player.xpBarCap());
 
-        return ((7 + levels_0_14 * 2) * levels_0_14)
-             + ((37 + (levels_15_29 - 15) * 5) * levels_15_29)
-             + ((112 + (levels_30_ - 30) * 9) * levels_30_)
-             + current_level_xp;
+        for (int level = 0; level < player.experienceLevel; level += 1) {
+            if (level >= 30) {
+                xp += 112 + (level - 30) * 9;
+            } else if (level >= 15) {
+                xp += 37 + (level - 15) * 5;
+            }
+            else {
+                xp += 7 + level * 2;
+            }
+        }
+
+        return xp;
     }
 
     public static void SetActualExperienceTotal(PlayerEntity player, int xp) {

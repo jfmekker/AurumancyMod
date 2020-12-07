@@ -1,5 +1,6 @@
 package com.jacobmekker.aurumancy.rituals;
 
+import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -106,10 +107,10 @@ public class Ritual {
         //   we have mana
         //   we have circle power
         //   we have all (and only all) components
-        if (player.experienceTotal > xpCost
+        if (PlayerEntityHelper.GetActualExperienceTotal(player) > xpCost
                 && power.meetsOrExceeds(requiredPower)
                 && validateRitualComponents(stacks)) {
-            player.giveExperiencePoints(-xpCost);
+            PlayerEntityHelper.AddActualExperienceTotal(player, -xpCost);
 
             for (ItemEntity e : entities) e.remove();
 
