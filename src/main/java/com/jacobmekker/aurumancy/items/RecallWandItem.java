@@ -35,27 +35,25 @@ public class RecallWandItem extends AbstractMagicItem implements IForgeItem {
     }
 
     @Override
-    protected void instantUsage(World world, PlayerEntity player, Hand hand) {
+    protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
+        World world = player.world;
+
         if (world.isRemote) return;
-        super.instantUsage(world, player, hand);
 
         ItemStack stack = player.getHeldItem(hand);
 
         if (hasRecallPos(stack)) {
-            BlockPos pos = getRecallPos(stack);
+            BlockPos recall_pos = getRecallPos(stack);
             player.setVelocity(0,0,0);
             player.fallDistance = 0;
             player.attemptTeleport(
-                    pos.getX() + 0.5,
-                    pos.getY(),
-                    pos.getZ() + 0.5,
+                    recall_pos.getX() + 0.5,
+                    recall_pos.getY(),
+                    recall_pos.getZ() + 0.5,
                     false);
         } else {
-            setRecallPos(stack, player.getPosition().add(0,1,0));
-            player.sendMessage(new StringTextComponent(
-                    "Recall position set to: " + player.getPosition().toString()));
+            setRecallPos(stack, pos.add(0,1,0));
+            player.sendMessage(new StringTextComponent("Recall position set to: " + pos.toString()));
         }
     }
-
-
 }

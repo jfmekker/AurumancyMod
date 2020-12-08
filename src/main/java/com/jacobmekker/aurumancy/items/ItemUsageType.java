@@ -6,5 +6,6 @@ package com.jacobmekker.aurumancy.items;
 public enum ItemUsageType {
     INSTANT,    // Instant right-click event
     CHARGED,    // Charged usage (hold right-click)
-    BLOCK       // Instant right-click on a block
+    BLOCK,      // Instant right-click on a block
+    PASSIVE,    // Item's effect is not actively triggered
 }

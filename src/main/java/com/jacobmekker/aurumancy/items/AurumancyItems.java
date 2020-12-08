@@ -12,7 +12,6 @@ import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.StringTextComponent;
@@ -29,15 +28,16 @@ public class AurumancyItems {
 
     public static final RegistryObject<Item> NULL_WAND =
             ITEMS.register("null_wand", () ->
-                    new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 20) { });
+                    new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.PASSIVE, 20) {
+                        @Override
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) { }
+                    });
 
     public static final RegistryObject<Item> JUMP_WAND =
             ITEMS.register("jump_wand", () ->
                     new AbstractMagicItem(new Item.Properties(), 1, ItemUsageType.INSTANT, 5) {
                         @Override
-                        protected void instantUsage(World world, PlayerEntity player, Hand hand) {
-                            super.instantUsage(world, player, hand);
-
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
                             if (player.isAirBorne) {
                                 if (player.getMotion().y < 0)
                                     player.setVelocity(player.getMotion().x, 0.75, player.getMotion().z);
@@ -55,9 +55,11 @@ public class AurumancyItems {
             ITEMS.register("arrow_wand", () ->
                     new AbstractMagicItem(new Item.Properties(), 2, ItemUsageType.CHARGED, 10) {
                         @Override
-                        protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
+                            World world = player.world;
+                            ItemStack stack = player.getHeldItem(hand);
+
                             if (world.isRemote) return;
-                            super.chargedUsage(stack, world, player);
 
                             Vec3d eyePos = player.getEyePosition(0);
                             Random rand = new Random();
@@ -77,10 +79,10 @@ public class AurumancyItems {
             ITEMS.register("storm_wand", () ->
                     new AbstractMagicItem(new Item.Properties(), 5, ItemUsageType.INSTANT, 15) {
                         @Override
-                        protected void instantUsage(World world, PlayerEntity player, Hand hand) {
-                            // Only do this on client side
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
+                            World world = player.world;
+
                             if (world.isRemote) return;
-                            super.instantUsage(world, player, hand);
 
                             // Get start and look vector for ray-trace
                             Vec3d eyePos = player.getEyePosition(0);
@@ -111,9 +113,10 @@ public class AurumancyItems {
             ITEMS.register("fireball_wand", () ->
                     new AbstractMagicItem(new Item.Properties(), 9, ItemUsageType.CHARGED, 100) {
                         @Override
-                        protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
+                            World world = player.world;
+
                             if (world.isRemote) return;
-                            super.chargedUsage(stack, world, player);
 
                             Vec3d eyePos = player.getEyePosition(0);
                             Vec3d lookVec = player.getLook(0);
@@ -131,9 +134,10 @@ public class AurumancyItems {
             ITEMS.register("teleport_wand", () ->
                     new AbstractMagicItem(new Item.Properties(), 12, ItemUsageType.CHARGED, 50) {
                         @Override
-                        protected void chargedUsage(ItemStack stack, World world, PlayerEntity player) {
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
+                            World world = player.world;
+
                             if (world.isRemote) return;
-                            super.chargedUsage(stack, world, player);
 
                             // Get start and look vector for ray-trace
                             Vec3d eyePos = player.getEyePosition(0);
@@ -149,9 +153,9 @@ public class AurumancyItems {
                             RayTraceResult rayResult = world.rayTraceBlocks(rayContext);
 
                             // Move 1 block back towards player
-                            Vec3d pos = rayResult.getHitVec().add(lookVec.scale(-1));
+                            Vec3d hit = rayResult.getHitVec().add(lookVec.scale(-1));
 
-                            player.attemptTeleport(pos.x,pos.y,pos.z,false);
+                            player.attemptTeleport(hit.x,hit.y,hit.z,false);
                         }
                     });
 
@@ -163,20 +167,20 @@ public class AurumancyItems {
             ITEMS.register("mana_meter", () ->
                     new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 20) {
                         @Override
-                        protected void blockUsage(ItemUseContext context) {
-                            super.blockUsage(context);
-                            if (context.getWorld().isRemote || context.getPlayer() == null) return;
+                        protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
+                            World world = player.world;
+                            if (world.isRemote) return;
 
-                            BlockState block = context.getWorld().getBlockState(context.getPos());
+                            BlockState block = world.getBlockState(pos);
                             Aurumancy.LOGGER.debug("mana_meter used on " + block.toString());
                             if (block.has(BlockProperties.stored_mana)) {
                                 int mana = block.get(BlockProperties.stored_mana);
-                                context.getPlayer().sendMessage(new StringTextComponent("Stored mana=" + mana));
+                                player.sendMessage(new StringTextComponent("Stored mana=" + mana));
                                 Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
                             }
                             else {
-                                int mana = PlayerEntityHelper.GetActualExperienceTotal(context.getPlayer());
-                                context.getPlayer().sendMessage(new StringTextComponent("Your mana=" + mana));
+                                int mana = PlayerEntityHelper.GetActualExperienceTotal(player);
+                                player.sendMessage(new StringTextComponent("Your mana=" + mana));
                                 Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
                             }
                         }
