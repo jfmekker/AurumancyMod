@@ -165,7 +165,7 @@ public class AurumancyItems {
 
     public static final RegistryObject<Item> MANA_METER =
             ITEMS.register("mana_meter", () ->
-                    new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 20) {
+                    new AbstractMagicItem(new Item.Properties(), 0, ItemUsageType.BLOCK, 0) {
                         @Override
                         protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
                             World world = player.world;

@@ -58,6 +58,7 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
         compound.putInt("scry_ticks", scry_ticks);
+        if (prev_mode == null) prev_mode = GameType.NOT_SET;
         compound.putInt("prev_mode", prev_mode.getID());
         if (return_pos != null) {
             compound.putInt("return_pos_x", return_pos.getX());
@@ -83,7 +84,8 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
 
                 player.fallDistance = 0; // make sure we don't take random fall damage
                 player.setPositionAndUpdate(return_pos.getX(), return_pos.getY(), return_pos.getZ());
-                player.setGameType(prev_mode);
+                if (prev_mode != GameType.NOT_SET) player.setGameType(prev_mode);
+                else Aurumancy.LOGGER.error("Could not restore gamemode.");
 
                 player = null;
                 player_id = null;

@@ -45,8 +45,9 @@ public class ManaFertilizerBlock extends Block {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if (world.isRemote)
-            return ActionResultType.SUCCESS;
+        if (world.isRemote) return ActionResultType.SUCCESS;
+
+        if (!player.getHeldItem(hand).isEmpty()) return ActionResultType.PASS;
 
         int current_mana = state.get(BlockProperties.stored_mana);
         int needed_mana = Math.min(81 - current_mana, 9);
@@ -54,6 +55,7 @@ public class ManaFertilizerBlock extends Block {
         if (needed_mana > 0 && PlayerEntityHelper.GetActualExperienceTotal(player) >= needed_mana) {
             PlayerEntityHelper.AddActualExperienceTotal(player, -needed_mana);
             current_mana += needed_mana;
+            world.playEvent(2005, pos.add(0,1,0), 0);
             world.setBlockState(pos, state.with(BlockProperties.stored_mana, current_mana));
         }
 

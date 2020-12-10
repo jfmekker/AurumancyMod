@@ -117,7 +117,7 @@ public abstract class AbstractMagicItem extends ShootableItem implements IForgeR
                     Aurumancy.LOGGER.trace("Player used wand on block: " + this.toString());
                     stack.attemptDamageItem(cooldownTime, player.getRNG(), null);
                     PlayerEntityHelper.AddActualExperienceTotal(player, -xpCost);
-                    this.onMagicItemUse(player, context.getHand(), player.getPosition());
+                    this.onMagicItemUse(player, context.getHand(), context.getPos());
                     return ActionResultType.SUCCESS;
                 }
             }
