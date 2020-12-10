@@ -2,9 +2,8 @@ package com.jacobmekker.aurumancy.blocks.tileentities;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
-import com.jacobmekker.aurumancy.data.BlockProperties;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropsBlock;
+import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -12,7 +11,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.event.RegistryEvent;
@@ -24,7 +22,8 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEntity {
 
-    public static int SCRY_MAX_TIME = 20 * 15; // 15 seconds
+    public static int SCRY_MAX_TIME = 20 * 60; // 60 seconds
+    public static int SCRY_MANA_COST = 18;
 
     private int scry_ticks = 0;
 
@@ -104,6 +103,11 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
             user.sendMessage(new StringTextComponent("Scrying cube already in use."));
             return;
         }
+        else if (PlayerEntityHelper.GetActualExperienceTotal(user) < SCRY_MANA_COST) {
+            user.sendMessage(new StringTextComponent("Not enough mana to scry."));
+            return;
+        }
+        PlayerEntityHelper.AddActualExperienceTotal(user, SCRY_MANA_COST);
 
         player = user;
         player_id = user.getUniqueID();
