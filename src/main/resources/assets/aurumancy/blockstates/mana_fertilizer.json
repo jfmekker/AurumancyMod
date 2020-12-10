@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "" : {
+        "model": "aurumancy:block/mana_fertilizer"
+    }
+  }
+}

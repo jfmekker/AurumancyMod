@@ -1,0 +1,17 @@
+{
+  "parent": "block/block",
+  "elements": [
+    {
+      "from": [ 4, 4, 4 ],
+      "to": [ 12, 12, 12 ],
+      "faces": {
+        "up":    { "texture": "aurumancy:block/scry_cube" },
+        "down":  { "texture": "aurumancy:block/scry_cube" },
+        "east":  { "texture": "aurumancy:block/scry_cube" },
+        "west":  { "texture": "aurumancy:block/scry_cube" },
+        "north": { "texture": "aurumancy:block/scry_cube" },
+        "south": { "texture": "aurumancy:block/scry_cube" }
+      }
+    }
+  ]
+}

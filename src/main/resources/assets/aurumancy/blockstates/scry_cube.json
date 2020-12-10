@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "" : {
+        "model": "aurumancy:block/scry_cube"
+    }
+  }
+}

@@ -6,5 +6,14 @@
   "item.aurumancy.jump_wand": "Wand of Air-jumps",
   "item.aurumancy.fireball_wand": "Wand of Fireballs",
   "item.aurumancy.teleport_wand": "Wand of Transportation",
-  "item.aurumancy.recall_wand": "Wand of Location Recall"
+  "item.aurumancy.recall_wand": "Wand of Location Recall",
+  "item.aurumancy.mana_meter": "Manameter",
+
+  "itemGroup.Aurumancy": "Aurumancy",
+
+  "block.aurumancy.ritual_circle": "Ritual Circle",
+  "block.aurumancy.teleport_circle": "Teleportation Circle",
+  "block.aurumancy.starlight_collector": "Starlight Collector",
+  "block.aurumancy.scry_cube": "Scrying Cube",
+  "block.aurumancy.mana_fertilizer": "Mana Fertilizer"
 }
