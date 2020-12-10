@@ -3,6 +3,7 @@ package com.jacobmekker.aurumancy.blocks;
 import com.jacobmekker.aurumancy.Aurumancy;
 
 import com.jacobmekker.aurumancy.blocks.tileentities.ManaFertilizerTileEntity;
+import com.jacobmekker.aurumancy.blocks.tileentities.ScryingCubeTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.StarlightCollectorTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.TeleportCircleTileEntity;
 import net.minecraft.block.Block;
@@ -61,5 +62,17 @@ public class AurumancyBlocks {
             TILE_ENTITY_TYPES.register("mana_fertilizer",
                     () -> TileEntityType.Builder.create(
                             ManaFertilizerTileEntity::new, MANA_FERTILIZER.get()
+                    ).build(null));
+
+    public static final RegistryObject<Block> SCRYING_CUBE =
+            BLOCKS.register("scry_cube",
+                    () -> new ScryingCubeBlock(Block.Properties.create(Material.GLASS)));
+    public static final RegistryObject<Item> SCRYING_CUBE_ITEM =
+            BLOCK_ITEMS.register("scry_cube",
+                    () -> new BlockItem(SCRYING_CUBE.get(), new Item.Properties().group(Aurumancy.ITEM_GROUP)));
+    public static final RegistryObject<TileEntityType<?>> SCRYING_CUBE_TILE_ENTITY_TYPE =
+            TILE_ENTITY_TYPES.register("scry_cube",
+                    () -> TileEntityType.Builder.create(
+                            ScryingCubeTileEntity::new, SCRYING_CUBE.get()
                     ).build(null));
 }
