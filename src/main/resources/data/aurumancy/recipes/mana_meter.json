@@ -3,20 +3,20 @@
 
     "pattern":
     [
-        "SeS",
-        "eGe",
-        "SeS"
+        "wGw",
+        "wgw",
+        "www"
     ],
 
     "key":
     {
-        "S":
+        "w":
         {
-            "tag": "forge:stone"
+            "tag": "minecraft:planks"
         },
-        "e":
+        "g":
         {
-            "item": "minecraft:emerald"
+            "tag": "forge:ingots/gold"
         },
         "G":
         {
@@ -26,7 +26,7 @@
 
     "result":
     {
-        "item": "aurumancy:ritual_circle",
+        "item": "aurumancy:mana_meter",
         "count": 1
     }
 }
