@@ -4,8 +4,8 @@ import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.data.BlockProperties;
 import com.jacobmekker.aurumancy.networking.ModPacketHandler;
 import com.jacobmekker.aurumancy.networking.messages.SummonLightningMessage;
-
 import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;

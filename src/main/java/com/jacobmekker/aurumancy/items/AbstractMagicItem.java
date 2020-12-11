@@ -1,8 +1,8 @@
 package com.jacobmekker.aurumancy.items;
 
 import com.jacobmekker.aurumancy.Aurumancy;
-
 import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

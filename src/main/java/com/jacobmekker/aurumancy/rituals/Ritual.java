@@ -1,6 +1,8 @@
 package com.jacobmekker.aurumancy.rituals;
 
+import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -114,10 +116,13 @@ public class Ritual {
 
             for (ItemEntity e : entities) e.remove();
 
+            Aurumancy.LOGGER.trace("Ritual validated, completing action.");
             if (effect != null) effect.doAction(world, center, player);
 
             return true;
         }
+
+        Aurumancy.LOGGER.trace("Failed to complete ritual.");
         return false;
     }
 }
