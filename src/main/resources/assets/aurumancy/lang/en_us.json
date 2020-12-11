@@ -1,11 +1,10 @@
 {
-  "item.aurumancy.ritual_wand": "Ritual Wand",
-  "item.aurumancy.storm_wand": "Wand of Lightning",
-  "item.aurumancy.arrow_wand": "Arrow-shotgun Wand",
-  "item.aurumancy.null_wand": "Do-nothing Wand",
-  "item.aurumancy.jump_wand": "Wand of Air-jumps",
+  "item.aurumancy.storm_wand": "Wand of Storms",
+  "item.aurumancy.arrow_wand": "Arrow Barrage Wand",
+  "item.aurumancy.null_wand": "Wand of NULL",
+  "item.aurumancy.jump_wand": "Air-jump Wand",
   "item.aurumancy.fireball_wand": "Wand of Fireballs",
-  "item.aurumancy.teleport_wand": "Wand of Transportation",
+  "item.aurumancy.teleport_wand": "Teleportation Wand",
   "item.aurumancy.recall_wand": "Wand of Location Recall",
   "item.aurumancy.mana_meter": "Manameter",
 
