@@ -15,9 +15,7 @@ public class RitualCircle {
     private static final int NETHER_CIRCLE_SIZE = 6;
     private static final int END_CIRCLE_SIZE = 9;
 
-    private static final int OVERWORLD_CIRCLE_MAX_PILLARS = 4;
-    private static final int NETHER_CIRCLE_MAX_PILLARS = 8;
-    private static final int END_CIRCLE_MAX_PILLARS = 16;
+    private static final int REQUIRED_NUM_PILLARS = 4;
 
     private static final int OVERWORLD_CIRCLE_PILLAR_HEIGHT = 2;
     private static final int NETHER_CIRCLE_PILLAR_HEIGHT = 4;
@@ -83,13 +81,10 @@ public class RitualCircle {
                 if (block != Blocks.STONE_BRICKS) {
                     if (block == Blocks.COAL_BLOCK) {
                         // Check pillar
-                        if (num_pillars < OVERWORLD_CIRCLE_MAX_PILLARS) {
-                            CirclePower pillar = GetPillarOverworldPower(world, center.add(i,0,j));
-                            if (pillar == null) return null;
-                            circle.add(pillar);
-                            num_pillars += 1;
-                        }
-                        else return null;
+                        CirclePower pillar = GetPillarOverworldPower(world, center.add(i,0,j));
+                        if (pillar == null) return null;
+                        circle.add(pillar);
+                        num_pillars += 1;
                     }
                     else {
                         return null;
@@ -98,6 +93,7 @@ public class RitualCircle {
             }
         }
 
+        if (num_pillars != REQUIRED_NUM_PILLARS) return null;
         return circle;
     }
 
@@ -153,13 +149,10 @@ public class RitualCircle {
                 if (block != Blocks.NETHER_BRICKS) {
                     if (block == Blocks.SOUL_SAND) {
                         // Check pillar
-                        if (num_pillars < NETHER_CIRCLE_MAX_PILLARS) {
-                            CirclePower pillar = GetPillarNetherPower(world, center.add(i,0,j));
-                            if (pillar == null) return null;
-                            circle.add(pillar);
-                            num_pillars += 1;
-                        }
-                        else return null;
+                        CirclePower pillar = GetPillarNetherPower(world, center.add(i,0,j));
+                        if (pillar == null) return null;
+                        circle.add(pillar);
+                        num_pillars += 1;
                     }
                     else {
                         return null;
@@ -168,6 +161,7 @@ public class RitualCircle {
             }
         }
 
+        if (num_pillars != REQUIRED_NUM_PILLARS) return null;
         return circle;
     }
 
@@ -223,13 +217,10 @@ public class RitualCircle {
                 if (block != Blocks.END_STONE_BRICKS) {
                     if (block == Blocks.OBSIDIAN) {
                         // Check pillar
-                        if (num_pillars < END_CIRCLE_MAX_PILLARS) {
-                            CirclePower pillar = GetPillarEndPower(world, center.add(i,0,j));
-                            if (pillar == null) return null;
-                            circle.add(pillar);
-                            num_pillars += 1;
-                        }
-                        else return null;
+                        CirclePower pillar = GetPillarEndPower(world, center.add(i,0,j));
+                        if (pillar == null) return null;
+                        circle.add(pillar);
+                        num_pillars += 1;
                     }
                     else {
                         return null;
@@ -238,6 +229,7 @@ public class RitualCircle {
             }
         }
 
+        if (num_pillars != REQUIRED_NUM_PILLARS) return null;
         return circle;
     }
 }
