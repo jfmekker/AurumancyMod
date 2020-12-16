@@ -161,7 +161,7 @@ public class AurumancyItems {
 
     public static final RegistryObject<Item> RECALL_WAND =
             ITEMS.register("recall_wand", () ->
-                    new RecallWandItem(new Item.Properties(), 15, ItemUsageType.INSTANT, 200));
+                    new RecallWandItem(new Item.Properties(), 18, ItemUsageType.INSTANT, 200));
 
     public static final RegistryObject<Item> MANA_METER =
             ITEMS.register("mana_meter", () ->
