@@ -3,6 +3,7 @@ package com.jacobmekker.aurumancy.blocks.tileentities;
 import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
 
+import com.jacobmekker.aurumancy.blocks.ManaFertilizerBlock;
 import com.jacobmekker.aurumancy.data.BlockProperties;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
@@ -13,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ManaFertilizerTileEntity extends TileEntity implements ITickableTileEntity {
@@ -43,31 +46,42 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
             int mana = self.get(BlockProperties.stored_mana);
             Aurumancy.LOGGER.trace("ManaFertilizer tick, stored_mana=" + mana);
 
+            // Skip if out of mana
             if (mana <= 0) {
                 wait_time = 0;
                 return;
             }
 
-            int tries = 0;
-            while (tries < MAX_TRIES) {
-                int x = world.rand.nextInt(MAX_RANGE * 2 + 1) - MAX_RANGE;
-                int z = world.rand.nextInt(MAX_RANGE * 2 + 1) - MAX_RANGE;
-
-                BlockPos crop_pos = pos.add(x,0,z);
-                BlockState crop = world.getBlockState(crop_pos);
-                if (crop.getBlock() instanceof CropsBlock) {
-                    CropsBlock c = (CropsBlock) crop.getBlock();
-                    if (!c.isMaxAge(crop)) {
-                        c.grow(world, crop_pos, crop);
-                        world.playEvent(2005, crop_pos, 0);
-                        Aurumancy.LOGGER.trace("ManaFertilizer grew @ " + crop_pos.toString());
-                        if (world.rand.nextDouble() < MANA_USE_CHANCE)
-                            world.setBlockState(pos, self.with(BlockProperties.stored_mana, mana - 1));
-                        break;
+            // Get list of valid targets
+            ArrayList<BlockPos> crops = new ArrayList<>();
+            for (int x = -MAX_RANGE; x <= MAX_RANGE; x++) {
+                for (int z = -MAX_RANGE; z <= MAX_RANGE; z++) {
+                    BlockState state = world.getBlockState(pos.add(x,0,z));
+                    if (state.getBlock() instanceof CropsBlock) {
+                        CropsBlock block = (CropsBlock) state.getBlock();
+                        if (!block.isMaxAge(state))
+                            crops.add(pos.add(x, 0, z));
+                    }
+                    else if (state.getBlock() instanceof ManaFertilizerBlock) {
+                        // MF fails if another MF is in range
+                        wait_time = 0;
+                        return;
                     }
                 }
+            }
 
-                tries += 1;
+            // Grow random target
+            if (crops.size() > 0) {
+                int i = world.rand.nextInt(crops.size());
+                BlockPos crop_pos = crops.get(i);
+                BlockState crop = world.getBlockState(crop_pos);
+                CropsBlock block = (CropsBlock) crop.getBlock();
+
+                block.grow(world, crop_pos, crop);
+                world.playEvent(2005, crop_pos, 0);
+                Aurumancy.LOGGER.trace("ManaFertilizer grew @ " + crop_pos.toString());
+                if (world.rand.nextDouble() < MANA_USE_CHANCE)
+                    world.setBlockState(pos, self.with(BlockProperties.stored_mana, mana - 1));
             }
 
             wait_time = 0;
