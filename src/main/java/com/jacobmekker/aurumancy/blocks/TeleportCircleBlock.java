@@ -28,7 +28,7 @@ public class TeleportCircleBlock extends Block {
 
     public static List<Tuple<DimensionType, BlockPos>> circles = new ArrayList<>();
 
-    private static int xp_cost = 9;
+    private static int xp_cost = 0;
 
     public TeleportCircleBlock(Properties properties) {
         super(properties);
