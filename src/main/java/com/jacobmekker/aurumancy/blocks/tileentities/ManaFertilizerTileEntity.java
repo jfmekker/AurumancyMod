@@ -20,6 +20,7 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
     public static int GROW_PERIOD = 20 * 5; // every 5 seconds
     public static int MAX_RANGE = 4;
     public static int MAX_TRIES = 5;
+    public static double MANA_USE_CHANCE = 0.25;
 
     public int wait_time = 0;
 
@@ -36,7 +37,6 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
     public void tick() {
         if (world == null || world.isRemote) return;
 
-        // every 1.5 seconds (while loaded)
         wait_time += 1;
         if (wait_time >= GROW_PERIOD) {
             BlockState self = world.getBlockState(pos);
@@ -61,7 +61,8 @@ public class ManaFertilizerTileEntity extends TileEntity implements ITickableTil
                         c.grow(world, crop_pos, crop);
                         world.playEvent(2005, crop_pos, 0);
                         Aurumancy.LOGGER.trace("ManaFertilizer grew @ " + crop_pos.toString());
-                        world.setBlockState(pos, self.with(BlockProperties.stored_mana, mana - 1));
+                        if (world.rand.nextDouble() < MANA_USE_CHANCE)
+                            world.setBlockState(pos, self.with(BlockProperties.stored_mana, mana - 1));
                         break;
                     }
                 }
