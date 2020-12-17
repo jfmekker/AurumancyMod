@@ -25,11 +25,11 @@ public class Rituals {
                             Items.HONEY_BLOCK,
                             Items.SLIME_BALL
                     ),
-                    new CirclePower(1,0,0)
+                    new CirclePower(5,0,0)
             );
 
     public static final Ritual FIREBALL_WAND_CREATE =
-            new Ritual(405,
+            new Ritual(495,
                     new ItemCreationRitualAction(AurumancyItems.FIREBALL_WAND.get()),
                     Arrays.asList(
                             Items.TNT,
@@ -38,11 +38,11 @@ public class Rituals {
                             Items.MAGMA_CREAM,
                             Items.BLAZE_ROD
                     ),
-                    new CirclePower(45, 25, 0)
+                    new CirclePower(57, 29, 0)
             );
 
     public static final Ritual ARROW_WAND_CREATE =
-            new Ritual(56,
+            new Ritual(54,
                     new ItemCreationRitualAction(AurumancyItems.ARROW_WAND.get()),
                     Arrays.asList(
                             Items.ARROW,
@@ -51,11 +51,11 @@ public class Rituals {
                             Items.STRING,
                             Items.STRING
                     ),
-                    new CirclePower(25, 0, 0)
+                    new CirclePower(21, 0, 0)
             );
 
     public static final Ritual TELEPORT_WAND_CREATE =
-            new Ritual(162,
+            new Ritual(495,
                     new ItemCreationRitualAction(AurumancyItems.TELEPORT_WAND.get()),
                     Arrays.asList(
                             Items.STICK,
@@ -63,11 +63,11 @@ public class Rituals {
                             Items.ENDER_PEARL,
                             Items.BLACK_WOOL
                     ),
-                    new CirclePower(25, 0, 0)
+                    new CirclePower(61, 0, 0)
             );
 
     public static final Ritual RECALL_WAND_CREATE =
-            new Ritual(162,
+            new Ritual(990,
                     new ItemCreationRitualAction(AurumancyItems.RECALL_WAND.get()),
                     Arrays.asList(
                             AurumancyItems.TELEPORT_WAND.get(),
@@ -79,7 +79,7 @@ public class Rituals {
             );
 
     public static final Ritual STORM_WAND_CREATE =
-            new Ritual(162,
+            new Ritual(256,
                     new ItemCreationRitualAction(AurumancyItems.STORM_WAND.get()),
                     Arrays.asList(
                             Items.STICK,
@@ -115,7 +115,7 @@ public class Rituals {
                             Items.BONE_MEAL,
                             Items.BONE_MEAL
                     ),
-                    new CirclePower(40, 0, 0)
+                    new CirclePower(17, 1, 0)
             );
 
     public static final Ritual SCRYING_CUBE_CREATE =
