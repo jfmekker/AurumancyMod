@@ -81,19 +81,7 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
             scry_ticks += 1;
             if (scry_ticks >= SCRY_MAX_TIME) {
                 Aurumancy.LOGGER.debug("Scrying Cube time done.");
-
-                player.fallDistance = 0; // make sure we don't take random fall damage
-                player.setPositionAndUpdate(return_pos.getX(), return_pos.getY(), return_pos.getZ());
-                if (prev_mode != GameType.NOT_SET) player.setGameType(prev_mode);
-                else Aurumancy.LOGGER.error("Could not restore gamemode.");
-
-                player = null;
-                player_id = null;
-                return_pos = null;
-                prev_mode = GameType.NOT_SET;
-
-                scry_ticks = 0;
-                markDirty();
+                stopScry();
             }
         }
     }
@@ -120,5 +108,32 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
         player.setGameType(GameType.SPECTATOR);
 
         markDirty();
+    }
+
+    public void stopScry() {
+        if (player == null || player_id == null) return;
+
+        player.fallDistance = 0; // make sure we don't take random fall damage
+
+        if (world != null && player.dimension == world.dimension.getType())
+            player.setPositionAndUpdate(return_pos.getX(), return_pos.getY(), return_pos.getZ());
+
+        if (prev_mode != GameType.NOT_SET) player.setGameType(prev_mode);
+        else Aurumancy.LOGGER.error("Scry Cube could not restore gamemode.");
+
+        player = null;
+        player_id = null;
+        return_pos = null;
+        prev_mode = GameType.NOT_SET;
+
+        scry_ticks = 0;
+        markDirty();
+    }
+
+    @Override
+    public void remove() {
+        stopScry();
+        Aurumancy.LOGGER.trace("Scrying Cube TileEntity removed, stopping scry.");
+        super.remove();
     }
 }
