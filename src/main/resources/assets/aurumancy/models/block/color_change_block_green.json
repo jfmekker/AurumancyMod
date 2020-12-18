@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "aurumancy:block/color_change_block_green"
-  }
-}
