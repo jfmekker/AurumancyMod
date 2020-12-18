@@ -3,8 +3,8 @@
 
     "pattern":
     [
-        "wGw",
-        "wgw",
+        "wcw",
+        "wCw",
         "www"
     ],
 
@@ -14,13 +14,13 @@
         {
             "tag": "minecraft:planks"
         },
-        "g":
+        "c":
         {
-            "tag": "forge:ingots/gold"
+            "item": "minecraft:clock"
         },
         "G":
         {
-            "tag": "forge:glass"
+            "item": "minecraft:compass"
         }
     },
 
