@@ -2,9 +2,9 @@ package com.jacobmekker.aurumancy.blocks.tileentities;
 
 import com.jacobmekker.aurumancy.Aurumancy;
 import com.jacobmekker.aurumancy.blocks.AurumancyBlocks;
-
 import com.jacobmekker.aurumancy.blocks.ManaFertilizerBlock;
 import com.jacobmekker.aurumancy.data.BlockProperties;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.tileentity.ITickableTileEntity;

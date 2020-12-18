@@ -1,11 +1,11 @@
 package com.jacobmekker.aurumancy.blocks;
 
 import com.jacobmekker.aurumancy.Aurumancy;
-
 import com.jacobmekker.aurumancy.blocks.tileentities.ManaFertilizerTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.ScryingCubeTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.StarlightCollectorTileEntity;
 import com.jacobmekker.aurumancy.blocks.tileentities.TeleportCircleTileEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;

@@ -1,9 +1,9 @@
 package com.jacobmekker.aurumancy.blocks;
 
 import com.jacobmekker.aurumancy.Aurumancy;
-
 import com.jacobmekker.aurumancy.blocks.tileentities.TeleportCircleTileEntity;
 import com.jacobmekker.aurumancy.utils.PlayerEntityHelper;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;

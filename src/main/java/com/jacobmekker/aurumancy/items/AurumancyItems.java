@@ -172,16 +172,16 @@ public class AurumancyItems {
                             if (world.isRemote) return;
 
                             BlockState block = world.getBlockState(pos);
-                            Aurumancy.LOGGER.debug("mana_meter used on " + block.toString());
+                            Aurumancy.LOGGER.trace("mana_meter used on " + block.toString());
                             if (block.has(BlockProperties.stored_mana)) {
                                 int mana = block.get(BlockProperties.stored_mana);
                                 player.sendMessage(new StringTextComponent("Stored mana=" + mana));
-                                Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
+                                Aurumancy.LOGGER.trace("mana_meter: mana=" + mana);
                             }
                             else {
                                 int mana = PlayerEntityHelper.GetActualExperienceTotal(player);
                                 player.sendMessage(new StringTextComponent("Your mana=" + mana));
-                                Aurumancy.LOGGER.info("mana_meter: mana=" + mana);
+                                Aurumancy.LOGGER.trace("mana_meter: mana=" + mana);
                             }
                         }
                     });

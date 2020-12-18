@@ -27,7 +27,7 @@ public class ColorChecker {
         if (block == RED_GLAZED_TERRACOTTA) return DyeColor.RED;
         if (block == BLACK_GLAZED_TERRACOTTA) return DyeColor.BLACK;
         else {
-            Aurumancy.LOGGER.debug("Unsupported block " + block.toString() + " given to ColorChecker. Returning null by default.");
+            Aurumancy.LOGGER.trace("Unsupported block " + block.toString() + " given to ColorChecker. Returning null by default.");
             return null;
         }
     }

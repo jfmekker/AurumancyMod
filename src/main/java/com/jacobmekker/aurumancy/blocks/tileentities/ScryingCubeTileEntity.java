@@ -80,7 +80,7 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
 
             scry_ticks += 1;
             if (scry_ticks >= SCRY_MAX_TIME) {
-                Aurumancy.LOGGER.debug("Scrying Cube time done.");
+                Aurumancy.LOGGER.trace("Scrying Cube time done.");
                 stopScry();
             }
         }
@@ -104,7 +104,7 @@ public class ScryingCubeTileEntity extends TileEntity implements ITickableTileEn
         return_pos = user.getPosition();
         prev_mode = ((ServerPlayerEntity)user).interactionManager.getGameType();
 
-        Aurumancy.LOGGER.debug("Starting scry.");
+        Aurumancy.LOGGER.trace("Starting scry.");
         player.setGameType(GameType.SPECTATOR);
 
         markDirty();

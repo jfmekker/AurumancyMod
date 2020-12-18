@@ -58,7 +58,7 @@ public class ScryingCubeBlock extends Block {
             ((ScryingCubeTileEntity)TE).startScry(player);
         }
 
-        Aurumancy.LOGGER.debug("Scrying Cube used.");
+        Aurumancy.LOGGER.trace("Scrying Cube used by " + player.getDisplayName().getString());
         return ActionResultType.SUCCESS;
     }
 }

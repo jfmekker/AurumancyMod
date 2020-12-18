@@ -1,6 +1,7 @@
 package com.jacobmekker.aurumancy.blocks;
 
 import com.jacobmekker.aurumancy.blocks.tileentities.StarlightCollectorTileEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;

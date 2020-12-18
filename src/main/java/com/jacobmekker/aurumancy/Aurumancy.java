@@ -12,7 +12,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -56,8 +55,7 @@ public class Aurumancy
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
+        LOGGER.info("Aurumancy pre-init.");
 
         ModPacketHandler.registerMessages();
     }
@@ -70,7 +68,7 @@ public class Aurumancy
     private void enqueueIMC(final InterModEnqueueEvent event)
     {
         // some example code to dispatch IMC to another mod
-        InterModComms.sendTo(Aurumancy.MODID, "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+        // InterModComms.sendTo(Aurumancy.MODID, "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
     }
 
     private void processIMC(final InterModProcessEvent event)
@@ -84,7 +82,7 @@ public class Aurumancy
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("Aurumancy: server starting.");
 
         ServerWorld w = event.getServer().getWorld(DimensionType.OVERWORLD);
         AurumancySavedData t = w.getSavedData().getOrCreate(
@@ -94,7 +92,7 @@ public class Aurumancy
     @SubscribeEvent
     public void onServerEnding(FMLServerStoppingEvent event) {
         // do something when the server ends
-        LOGGER.info("HELLO from server ending");
+        LOGGER.info("Aurumancy: server ending.");
 
         ServerWorld w = event.getServer().getWorld(DimensionType.OVERWORLD);
         AurumancySavedData t = new AurumancySavedData();
@@ -109,7 +107,7 @@ public class Aurumancy
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
-            LOGGER.info("HELLO from Register Block");
+            LOGGER.info("Aurumancy Register Block");
         }
     }
 }
