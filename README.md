@@ -4,7 +4,7 @@ A Forge compatible Minecraft mod that adds a simple magic system. It is designed
 
 ### Versions
 
-Forge 31.2.0 / Minecraft 1.15.2 / Aurumancy 0.0.1
+Forge 31.2.0 / Minecraft 1.15.2 / Aurumancy 1.0
 
 ## Mechanics
 
