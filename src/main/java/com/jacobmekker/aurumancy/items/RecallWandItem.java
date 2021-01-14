@@ -34,6 +34,10 @@ public class RecallWandItem extends AbstractMagicItem implements IForgeItem {
         stack.getOrCreateTag().putIntArray("recall_position", coords);
     }
 
+    public void unsetRecallPos(ItemStack stack) {
+        stack.getOrCreateTag().remove("recall_position");
+    }
+
     @Override
     protected void onMagicItemUse(PlayerEntity player, Hand hand, BlockPos pos) {
         World world = player.world;
@@ -43,14 +47,20 @@ public class RecallWandItem extends AbstractMagicItem implements IForgeItem {
         ItemStack stack = player.getHeldItem(hand);
 
         if (hasRecallPos(stack)) {
-            BlockPos recall_pos = getRecallPos(stack);
-            player.setVelocity(0,0,0);
-            player.fallDistance = 0;
-            player.attemptTeleport(
-                    recall_pos.getX() + 0.5,
-                    recall_pos.getY(),
-                    recall_pos.getZ() + 0.5,
-                    false);
+            if (player.isCrouching()) {
+                unsetRecallPos(stack);
+                player.sendMessage(new StringTextComponent("Recall position unset."));
+            }
+            else {
+                BlockPos recall_pos = getRecallPos(stack);
+                player.setVelocity(0,0,0);
+                player.fallDistance = 0;
+                player.attemptTeleport(
+                        recall_pos.getX() + 0.5,
+                        recall_pos.getY(),
+                        recall_pos.getZ() + 0.5,
+                        false);
+            }
         } else {
             setRecallPos(stack, pos.add(0,1,0));
             player.sendMessage(new StringTextComponent("Recall position set to: " + pos.toString()));
